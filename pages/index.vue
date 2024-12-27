@@ -1,14 +1,7 @@
 <template>
-    <div>
-        <h1>{{ testTitle }}</h1>
-
-    </div>
+	<banner/>
 </template>
 
 <script setup>
-    const testTitle = 'Hello World';
+const text = 'test'
 </script>
-
-<style lang="scss" scoped>
-
-</style>

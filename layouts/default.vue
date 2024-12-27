@@ -1,5 +1,12 @@
 <template>
     <v-app>
-        <slot />
+        <header-menu />
+        <v-main>
+            <slot />
+        </v-main>
     </v-app>
-  </template>
+</template>
+
+<script setup>
+
+</script>
