@@ -1,6 +1,6 @@
 <template>
     <v-layout>
-        <v-app-bar class="px-md-4">
+        <v-app-bar max-width="500" class="px-md-4">
             <template #prepend>
                 <v-app-bar-nav-icon v-if="$vuetify.display.smAndDown" @click="drawer = !drawer" />
             </template>
@@ -12,18 +12,6 @@
             <template #append>
                 <v-btn class="ms-1" color="medium-emphasis" icon="mdi-account" />
                 <v-btn class="ms-1" color="medium-emphasis" icon="mdi-cart" />
-
-                <!-- <v-btn class="ms-1" icon>
-                    <v-avatar image="https://cdn.vuetifyjs.com/images/john.png" />
-
-                    <v-menu activator="parent" origin="top">
-                        <v-list>
-                            <v-list-item link title="Update profile" />
-
-                            <v-list-item link title="Sign out" />
-                        </v-list>
-                    </v-menu>
-                </v-btn> -->
             </template>
         </v-app-bar>
 
