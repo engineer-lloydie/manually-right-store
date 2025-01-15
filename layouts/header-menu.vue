@@ -8,9 +8,12 @@
                     </v-col>
                     <v-col cols="8">
                         <div class="d-flex justify-end">
-                            <v-btn class="ms-1" color="medium-emphasis" icon="mdi-magnify" />
-                            <v-btn class="ms-1" color="medium-emphasis" icon="mdi-cart" />
-                            <v-btn class="ms-1" color="medium-emphasis" icon="mdi-account" />
+                            <v-btn v-for="(item, index) in menuItems" 
+                                :key="index" 
+                                class="ms-1" 
+                                color="medium-emphasis" 
+                                :icon="item.icon" 
+                            />
                         </div>
                     </v-col>
                 </v-row>
@@ -32,35 +35,15 @@
     </v-layout>
 </template>
 <script setup>
-import { shallowRef } from 'vue'
-
-const appTitle = ref("Upright Manual");
-const sidebar = ref(false);
 const tab = ref("one");
 
 const menuItems = ref([
-    { title: "Home", path: "/home", icon: "mdi-home" },
-    { title: "Sign Up", path: "/signup", icon: "mdi-login-variant" },
-    { title: "Sign In", path: "/signin", icon: "mdi-lock-open" },
+    { path: "/home", icon: "mdi-magnify" },
+    { path: "/signup", icon: "mdi-cart" },
+    { path: "/signin", icon: "mdi-account" },
 ]);
-
-const drawer = shallowRef(false)
 </script>
 
 <style lang="scss" scoped>
-.floating-header {
-    background-color: #bbbbbb !important;
-    color: white !important;
-    margin: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 1400px;
 
-    .v-btn {
-        color: white !important;
-
-        &:hover {
-            background-color: rgba(#26a69a, 0.3) !important;
-        }
-    }
-}
 </style>
