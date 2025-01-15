@@ -20,7 +20,7 @@
             </v-container>
         </v-app-bar>
 
-        <v-main height="200">
+        <v-main>
             <v-tabs
                 v-model="tab"
                 align-tabs="end"
