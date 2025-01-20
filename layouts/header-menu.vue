@@ -1,6 +1,6 @@
 <template>
     <v-layout>
-        <v-app-bar elevation="0">
+        <v-app-bar elevation="3" color="grey-lighten-3" height="100">
             <v-container>
                 <v-row align="center">
                     <v-col cols="4">
@@ -37,32 +37,31 @@
             </v-container>
         </v-app-bar>
 
-        <v-main class="mb-10">
-            <v-tabs
-                v-model="tab"
-                align-tabs="end"
-                bg-color="grey-darken-3"
-                color="yellow-lighten-1"
-                :mobile="false"
-                class="elevation-6"
-            >
-                <v-tab text="Item One" value="one"></v-tab>
-                <v-tab text="Item Two" value="two"></v-tab>
-                <v-tab text="Item Three" value="three"></v-tab>
-            </v-tabs>
+        <v-main class="my-5">
+            <v-container>
+                <v-tabs
+                    :model-value="tab"
+                    align-tabs="end"
+                    color="grey-darken-4"
+                    :mobile="false"
+                >
+                    <v-tab v-if="initialized" text="Manuals" value="manuals"></v-tab>
+                    <v-tab v-if="initialized" text="Contact Us" value="contact_us"></v-tab>
+                </v-tabs>
+            </v-container>
         </v-main>
     </v-layout>
 </template>
+
 <script setup>
-const tab = ref("one");
+const tab = ref(null);
+const initialized = ref(false);
+
+onMounted(() => {
+    initialized.value = true;
+});
+
 const searching = ref(false);
-
-const menuItems = ref([
-    // { path: "/home", icon: "mdi-magnify" },
-    { path: "/signin", icon: "mdi-account" },
-    { path: "/carts", icon: "mdi-cart", badge: true },
-]);
-
 const search = () => {
     searching.value = true;
 };
