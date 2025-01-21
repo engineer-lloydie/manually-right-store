@@ -3,7 +3,7 @@
         <v-container>
             <breadcrumbs />
             <v-row>
-                <v-col cols="3">
+                <v-col xl="3" sm="6" md="6" lg="3">
                     <v-card>
                         <v-card-title>Manuals</v-card-title>
                         <v-card-text>
@@ -14,7 +14,7 @@
                                     :value="item"
                                     color="primary"
                                 >
-                                    <v-list-item-title v-text="item.text"></v-list-item-title>
+                                    <v-list-item-title>{{ item.text }}</v-list-item-title>
                                 </v-list-item>
                             </v-list>
                         </v-card-text>
