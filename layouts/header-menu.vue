@@ -20,13 +20,13 @@
                                 max-width="300"
                             ></v-text-field>
                             <v-btn class="ms-1" 
-                                color="grey-darken-3" 
+                                color="red-lighten-1" 
                                 icon="mdi-account"
                                 density="comfortable"
                             >
                             </v-btn>
                             <v-btn class="ms-1" 
-                                color="grey-darken-3"
+                                color="red-lighten-1"
                                 icon="mdi-cart"
                                 density="comfortable"
                             >

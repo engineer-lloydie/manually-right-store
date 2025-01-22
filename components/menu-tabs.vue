@@ -6,11 +6,11 @@
             >
                 <v-btn 
                     exact 
-                    to="/manual-lists" 
+                    to="/documents/categories" 
                     text="Manuals" 
                     value="manuals"
                     variant="text"
-                    selected-class="bg-black"
+                    active-color="red-lighten-1"
                 ></v-btn>
                 <v-btn
                     exact

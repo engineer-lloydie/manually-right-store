@@ -12,7 +12,8 @@
                                     v-for="(item, i) in items"
                                     :key="i"
                                     :value="item"
-                                    color="primary"
+                                    color="red-lighten-1"
+                                    :to="`/documents/categories/${item.id}`"
                                 >
                                     <v-list-item-title>{{ item.text }}</v-list-item-title>
                                 </v-list-item>
@@ -27,10 +28,10 @@
 
 <script setup>
 const items = [
-    { text: 'Manual 1', path: '/test' },
-    { text: 'Manaul 2', path: '/test' },
-    { text: 'Manual 3', path: '/test' },
-    { text: 'Manual 4', path: '/test' }
+    { text: 'Manual 1', id: 1 },
+    { text: 'Manaul 2', id: 2 },
+    { text: 'Manual 3', id: 3 },
+    { text: 'Manual 4', id: 4 }
 ]
 </script>
 

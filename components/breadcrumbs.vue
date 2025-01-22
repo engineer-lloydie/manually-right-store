@@ -11,17 +11,17 @@
 <script setup>
 const items = ref([
     {
-        title: "Dashboard",
+        title: "Home",
         disabled: false,
-        href: "breadcrumbs_dashboard",
+        href: "/",
     },
     {
-        title: "Link 1",
+        title: "Manuals",
         disabled: false,
         href: "breadcrumbs_link_1",
     },
     {
-        title: "Link 2",
+        title: "Category 2",
         disabled: true,
         href: "breadcrumbs_link_2",
     },
