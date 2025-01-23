@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-container>
+        <v-container class="pt-0">
             <breadcrumbs />
             <v-card>
                 <v-slide-group
