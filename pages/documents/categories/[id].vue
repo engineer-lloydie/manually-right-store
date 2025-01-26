@@ -42,7 +42,8 @@
                                     class="bg-grey-darken-1"
                                 ></v-btn>
 
-                                <v-btn 
+                                <v-btn
+                                    to="/checkout"
                                     color="white" 
                                     text="Buy now"
                                     prepend-icon="mdi-basket-fill"
