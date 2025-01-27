@@ -33,6 +33,7 @@
                                 size="50"
                                 rounded="circle"
                                 stacked
+                                @click="showAccountModal('auth-modal')"
                             >
                                 <v-icon>mdi-account</v-icon>
                             </v-btn>
@@ -64,6 +65,14 @@
 </template>
 
 <script setup>
+import { useModalStore } from '@/store/modal';
+
+const { showModal } = useModalStore();
+
+const showAccountModal = (modalComponent) => {
+    showModal(modalComponent);
+};
+
 const searching = ref(false);
 const search = () => {
     searching.value = true;

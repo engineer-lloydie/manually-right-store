@@ -26,6 +26,9 @@ export default defineNuxtConfig({
         },
         '@pinia/nuxt'
     ],
+    plugins: [
+        '~/plugins/modal.mjs'
+    ],
     components: { 
         dirs: [ 
             '~/components',

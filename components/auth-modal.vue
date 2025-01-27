@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="dialog" width="auto">
+    <v-dialog v-model="props.active" width="auto">
         <v-card
             max-width="400"
             prepend-icon="mdi-update"
@@ -10,7 +10,7 @@
                 <v-btn
                     class="ms-auto"
                     text="Ok"
-                    @click="dialog = false"
+                    @click="hideAccountModal()"
                 ></v-btn>
             </template>
         </v-card>
@@ -18,7 +18,19 @@
 </template>
 
 <script setup>
-const dialog = ref(false);
+import { useModalStore } from '@/store/modal';
+
+const props = defineProps({
+    active: Boolean,
+    default: false
+});
+
+const { hideModal } = useModalStore();
+
+const hideAccountModal = (modalComponent) => {
+    hideModal(modalComponent);
+};
+
 </script>
 
 <style lang="scss" scoped></style>

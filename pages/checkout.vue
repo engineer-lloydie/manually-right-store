@@ -6,7 +6,8 @@
                     src="~/assets/images/partial-logo.png"
                     max-height="100"
                     max-width="250"
-                    @click="$router.push('/')" class="cursor-pointer"
+                    @click="$router.push('/')"
+                    class="cursor-pointer"
                 />
 
                 <v-sheet class="d-flex align-center">
@@ -23,7 +24,7 @@
 
             <v-sheet class="mt-5">
                 <v-row>
-                    <v-col xs="12" md="7" lg="7">
+                    <v-col cols="12" md="7" lg="7">
                         <v-card class="my-5">
                             <v-card-item id="checkout-information">
                                 <v-sheet>
