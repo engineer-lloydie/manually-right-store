@@ -19,12 +19,12 @@ export default defineNuxtConfig({
         }
     },
     modules: [
-        async (_options, nuxt) => {
-                nuxt.hooks.hook('vite:extendConfig', (config) => {
-                    config.plugins = config.plugins || [];
-                    config.plugins.push(vuetify()); // Explicitly add ESM Vuetify plugin
-                });
-          },
+        (_options, nuxt) => {
+            nuxt.hooks.hook('vite:extendConfig', (config) => {
+                config.plugins.push(vuetify({ autoImport: true }))
+            })
+        },
+        '@pinia/nuxt'
     ],
     components: { 
         dirs: [ 

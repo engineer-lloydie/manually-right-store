@@ -23,18 +23,31 @@
                                 single-line
                                 @click:append-inner="search"
                                 max-width="300"
+                                class="px-4"
                             ></v-text-field>
-                            <v-btn class="ms-1" 
-                                color="red-lighten-1" 
-                                icon="mdi-account"
-                                density="comfortable"
+                            
+                            <v-btn
+                                color="grey-darken-1"
+                                class="text-none"
+                                density="compact"
+                                size="50"
+                                rounded="circle"
+                                stacked
                             >
+                                <v-icon>mdi-account</v-icon>
                             </v-btn>
-                            <v-btn class="ms-1" 
-                                color="red-lighten-1"
-                                icon="mdi-cart"
-                                density="comfortable"
+                            
+                            <v-btn
+                                color="grey-darken-1"
+                                class="text-none"
+                                density="compact"
+                                size="50"
+                                rounded="circle"
+                                stacked
                             >
+                                <v-badge color="red-lighten-1" content="2">
+                                    <v-icon>mdi-cart</v-icon>
+                                </v-badge>
                             </v-btn>
                         </div>
                     </v-col>
