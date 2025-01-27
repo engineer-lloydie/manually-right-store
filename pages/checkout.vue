@@ -6,8 +6,8 @@
                     src="~/assets/images/partial-logo.png"
                     max-height="100"
                     max-width="250"
-                >
-                </v-img>
+                    @click="$router.push('/')" class="cursor-pointer"
+                />
 
                 <v-sheet class="d-flex align-center">
                     <v-icon
@@ -24,7 +24,7 @@
             <v-sheet class="mt-5">
                 <v-row>
                     <v-col xs="12" md="7" lg="7">
-                        <v-card class="pa-5 my-5">
+                        <v-card class="my-5">
                             <v-card-item id="checkout-information">
                                 <v-sheet>
                                     <h3>Checkout Information</h3>
@@ -32,39 +32,34 @@
                                 <v-sheet class="my-3">
                                     <v-row>
                                         <v-col>
-                                            <v-responsive
-                                                class="mx-auto"
-                                            >
-                                                <v-text-field
-                                                    :rules="[first_name.required]"
-                                                    label="First name"
-                                                    clearable
-                                                ></v-text-field>
-                                            </v-responsive>
+                                            <v-text-field
+                                                :rules="[firstName.required]"
+                                                label="First name"
+                                                variant="outlined"
+                                                clearable
+                                            ></v-text-field>
                                         </v-col>
                                         <v-col>
-                                            <v-responsive
-                                                class="mx-auto"
-                                            >
-                                                <v-text-field
-                                                    :rules="[last_name.required]"
-                                                    label="Last name"
-                                                    clearable
-                                                ></v-text-field>
-                                            </v-responsive>
+                                            <v-text-field
+                                                :rules="[lastName.required]"
+                                                label="Last name"
+                                                variant="outlined"
+                                                clearable
+                                            ></v-text-field>
                                         </v-col>
                                     </v-row>
                                 </v-sheet>
                                 <v-sheet class="my-3">
                                     <v-text-field
-                                        :rules="[email_address.required]"
+                                        :rules="[emailAddress.required]"
                                         label="Email address"
+                                        variant="outlined"
                                         clearable
                                     ></v-text-field>
                                 </v-sheet>
                             </v-card-item>
                         </v-card>
-                        <v-card class="pa-5 my-5">
+                        <v-card class="my-5">
                             <v-card-item id="payment">
                                 <v-sheet>
                                     <h3>Payment</h3>
@@ -80,7 +75,7 @@
                     </v-col>
                     <v-col xs="12" md="5" lg="5">
                         <v-sheet>
-                            <v-card class="pa-5 my-5">
+                            <v-card class="my-5">
                                 <v-card-item>
                                     <v-sheet class="mb-5">
                                         <h3>Payment Summary</h3>
@@ -88,7 +83,7 @@
                                     <v-row>
                                         <v-col class="d-flex justify-space-between">
                                             <h4 class="font-weight-regular">Number of Item(s)</h4>
-                                            <p class="font-weight-regular">1</p>
+                                            <p class="font-weight-regular">{{ cartItems.length }}</p>
                                         </v-col>
                                     </v-row>
     
@@ -97,31 +92,31 @@
                                     <v-row>
                                         <v-col class="d-flex justify-space-between">
                                             <h4 class="font-weight-regular">Total Cost</h4>
-                                            <p class="font-weight-regular">$17</p>
+                                            <h4 class="price-text-color text-right">${{ totalCost }}.00</h4>
                                         </v-col>
                                     </v-row>
                                 </v-card-item>
                             </v-card>
                         </v-sheet>
                         <v-sheet>
-                            <v-card class="pa-5 my-5">
+                            <v-card class="my-5">
                                 <v-card-item>
                                     <v-sheet class="mb-5">
                                         <h3>Item Summary</h3>
                                     </v-sheet>
-                                    <v-row>
-                                        <v-col class="d-flex justify-space-between">
-                                            <h4>Number of Item(s)</h4>
-                                            <p>1</p>
+                                    <v-row v-for="item in cartItems" :key="item.id">
+                                        <v-col cols="3">
+                                            <v-img 
+                                                src="~/assets/images/thumbnail.jpeg"
+                                                max-height="100"
+                                            />
                                         </v-col>
-                                    </v-row>
-    
-                                    <v-divider class="my-5"></v-divider>
-    
-                                    <v-row>
-                                        <v-col class="d-flex justify-space-between">
-                                            <h4>Total Cost</h4>
-                                            <p>$17</p>
+                                        <v-col cols="6">
+                                            <h5 class="mb-1">{{ item.name }}</h5>
+                                            <h5 class="font-weight-regular">Quantity: {{ item.quantity }}</h5>
+                                        </v-col>
+                                        <v-col cols="3">
+                                            <h4 class="price-text-color text-right">${{ item.price }}.00</h4>
                                         </v-col>
                                     </v-row>
                                 </v-card-item>
@@ -139,19 +134,42 @@ definePageMeta({
     layout: false,
 });
 
-const first_name = ref({
+const totalCost = computed(() => {
+    return cartItems.value.reduce((acc, item) => {
+        return acc + (item.price * item.quantity);
+    }, 0);
+});
+
+const cartItems = ref([
+    {
+        id: 1,
+        name: 'Air & Space Model 18A Gyroplane Maintenance & Rigging Manual 1965 (Report No. UER 18-601)',
+        price: 17,
+        quantity: 1
+    },
+    {
+        id: 2,
+        name: 'Air & Space Model 18A Gyroplane Maintenance & Rigging Manual 1965 (Report No. UER 18-601)',
+        price: 17,
+        quantity: 1
+    }
+]);
+
+const firstName = ref({
     required: (v) => !!v || 'First name is required.',
 });
 
-const last_name = ({
+const lastName = ({
     required: (v) => !!v || 'Last name is required.',
 });
 
-const email_address = ({
+const emailAddress = ({
     required: (v) => !!v || 'Email address is required.',
 });
 </script>
 
 <style lang="scss" scoped>
-
+.price-text-color {
+    color: #EF5350;
+}
 </style>

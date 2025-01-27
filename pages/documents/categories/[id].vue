@@ -3,18 +3,22 @@
         <v-container class="pt-0">
             <breadcrumbs />
             <v-card>
-                <v-slide-group
+                <v-row
                     class="pa-4"
-                    center-active
-                    show-arrows
                 >
-                    <v-slide-group-item
-                        v-for="n in 10"
+                    <v-col
+                        cols="12"
+                        lg="4"
+                        md="6"
+                        sm="12"
+                        xl="3"
+                        class="d-flex justify-sm-center"
+                        v-for="n in 8"
                         :key="n"
                     >
                         <v-card
                             class="ma-4"
-                            width="330"
+                            max-width="400"
                         >
                             <v-img
                                 class="align-end text-white"
@@ -52,15 +56,22 @@
                                 ></v-btn>
                             </v-card-actions>
                         </v-card>
-                    </v-slide-group-item>
-                </v-slide-group>
+                    </v-col>
+                </v-row>
+                <div>
+                    <v-pagination
+                      v-model="page"
+                      :length="6"
+                      :total-visible="5"
+                    ></v-pagination>
+                  </div>
             </v-card>
         </v-container>
     </div>
 </template>
 
 <script setup>
-
+const page = ref(1);
 </script>
 
 <style lang="scss" scoped>

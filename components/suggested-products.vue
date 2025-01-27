@@ -19,12 +19,11 @@
                 >
                     <v-card
                         class="ma-4"
-                        height="400"
-                        width="200"
+                        width="300"
                     >
                         <v-img
                             class="align-end text-white"
-                            height="200"
+                            height="250"
                             src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
                             cover
                         >
@@ -42,9 +41,22 @@
                         </v-card-text>
 
                         <v-card-actions>
-                            <v-btn color="orange" text="Share"></v-btn>
+                            <v-btn 
+                                color="white" 
+                                text="Add to cart"
+                                prepend-icon="mdi-cart-check"
+                                elevation="2"
+                                class="bg-grey-darken-1"
+                            ></v-btn>
 
-                            <v-btn color="orange" text="Explore"></v-btn>
+                            <v-btn
+                                to="/checkout"
+                                color="white" 
+                                text="Buy now"
+                                prepend-icon="mdi-basket-fill"
+                                elevation="2"
+                                class="bg-red-lighten-1"
+                            ></v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-slide-group-item>

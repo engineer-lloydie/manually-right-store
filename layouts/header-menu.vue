@@ -4,7 +4,12 @@
             <v-container>
                 <v-row align="center">
                     <v-col cols="4">
-                        <v-img @click="$router.push('/')" class="me-sm-8 cursor-pointer" max-width="200" src="~/assets/images/partial-logo.png" />
+                        <v-img 
+                            @click="$router.push('/')"
+                            class="me-sm-8 cursor-pointer"
+                            max-width="200"
+                            src="~/assets/images/partial-logo.png"
+                        />
                     </v-col>
                     <v-col cols="8">
                         <div class="d-flex justify-end align-center">
