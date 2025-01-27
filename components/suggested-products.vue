@@ -12,7 +12,8 @@
                 class="pa-4"
                 center-active
                 show-arrows
-                >
+                :mobile="false"
+            >
                 <v-slide-group-item
                     v-for="n in 5"
                     :key="n"
