@@ -15,8 +15,8 @@
                 :mobile="false"
             >
                 <v-slide-group-item
-                    v-for="n in 5"
-                    :key="n"
+                    v-for="item in manualItems"
+                    :key="item.id"
                 >
                     <v-card
                         class="ma-4"
@@ -24,21 +24,19 @@
                     >
                         <v-img
                             class="align-end text-white"
-                            height="250"
-                            src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
-                            cover
+                            height="320"
+                            src="~/assets/images/thumbnail.jpeg"
                         >
-                            <v-card-title>Top 10 Australian beaches</v-card-title>
                         </v-img>
 
-                        <v-card-subtitle class="pt-4">
-                            Number 10
+                        <v-card-title>{{ item.name }}</v-card-title>
+
+                        <v-card-subtitle class="text-h6 font-weight-bold">
+                            ${{ item.price }}.00
                         </v-card-subtitle>
 
                         <v-card-text>
-                            <div>Whitehaven Beach</div>
-
-                            <div>Whitsunday Island, Whitsunday Islands</div>
+                            <div>{{ item.description }}</div>
                         </v-card-text>
 
                         <v-card-actions>
@@ -67,7 +65,32 @@
 </template>
 
 <script setup>
-
+const manualItems = ref([
+    {
+        id: 1,
+        name: 'Air & Space Model 18A Gyroplane Maintenance & Rigging Manual 1965 (Report No. UER 18-601)',
+        description: "Air & Space Model 18A Gyroplane Maintenance & Rigging Manual 1965 (Report No. UER 18-601)",
+        price: 100
+    },
+    {
+        id: 2,
+        name: 'Air & Space Model 18A Gyroplane Maintenance & Rigging Manual 1965 (Report No. UER 18-601)',
+        description: "Air & Space Model 18A Gyroplane Maintenance & Rigging Manual 1965 (Report No. UER 18-601)",
+        price: 100
+    },
+    {
+        id: 3,
+        name: 'Air & Space Model 18A Gyroplane Maintenance & Rigging Manual 1965 (Report No. UER 18-601)',
+        description: "Air & Space Model 18A Gyroplane Maintenance & Rigging Manual 1965 (Report No. UER 18-601)",
+        price: 100
+    },
+    {
+        id: 4,
+        name: 'Air & Space Model 18A Gyroplane Maintenance & Rigging Manual 1965 (Report No. UER 18-601)',
+        description: "Air & Space Model 18A Gyroplane Maintenance & Rigging Manual 1965 (Report No. UER 18-601)",
+        price: 100
+    }
+]);
 </script>
 
 <style lang="scss" scoped>

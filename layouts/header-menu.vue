@@ -38,18 +38,7 @@
                                 <v-icon>mdi-account</v-icon>
                             </v-btn>
                             
-                            <v-btn
-                                color="grey-darken-1"
-                                class="text-none"
-                                density="compact"
-                                size="50"
-                                rounded="circle"
-                                stacked
-                            >
-                                <v-badge color="red-lighten-1" content="2">
-                                    <v-icon>mdi-cart</v-icon>
-                                </v-badge>
-                            </v-btn>
+                            <cart-items/>
                         </div>
                     </v-col>
                 </v-row>

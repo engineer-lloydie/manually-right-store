@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-sheet>
-            <form @submit.prevent="submit">
+            <form @submit.prevent="register">
                 <v-text-field
                     v-model="firstName.value.value"
                     :counter="10"
@@ -35,7 +35,6 @@
                     variant="outlined"
                     clearable
                     label="Password"
-                    type="password"
                     @click:append-inner="passwordVisible = !passwordVisible"
                 ></v-text-field>
             
@@ -87,7 +86,7 @@ const password = useField('password');
 
 const passwordVisible = ref(false);
 
-const submit = handleSubmit(values => {
+const register = handleSubmit(values => {
     alert(JSON.stringify(values, null, 2))
 })
 </script>
