@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-container class="pt-0">
-            <breadcrumbs />
+            <breadcrumbs :items="breadcrumbItems" />
             <v-card>
                 <v-row
                     class="pa-4"
@@ -37,20 +37,11 @@
                                 <div>{{ item.description }}</div>
                             </v-card-text>
 
-                            <v-card-actions>
+                            <v-card-actions class="d-flex justify-end">
                                 <v-btn 
                                     color="white" 
                                     text="Add to cart"
                                     prepend-icon="mdi-cart-check"
-                                    elevation="2"
-                                    class="bg-grey-darken-1"
-                                ></v-btn>
-
-                                <v-btn
-                                    to="/checkout"
-                                    color="white" 
-                                    text="Buy now"
-                                    prepend-icon="mdi-basket-fill"
                                     elevation="2"
                                     class="bg-red-lighten-1"
                                 ></v-btn>
@@ -71,6 +62,23 @@
 </template>
 
 <script setup>
+const breadcrumbItems = ref([
+    {
+        title: "Home",
+        disabled: false,
+        to: "/",
+    },
+    {
+        title: "Manuals",
+        disabled: false,
+        to: "/documents/categories",
+    },
+    {
+        title: "Category",
+        disabled: true
+    }
+]);
+
 const page = ref(1);
 const manualItems = ref([
     {

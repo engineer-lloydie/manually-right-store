@@ -20,7 +20,7 @@
                 >
                     <v-card
                         class="ma-4"
-                        width="300"
+                        width="400"
                     >
                         <v-img
                             class="align-end text-white"
@@ -39,20 +39,11 @@
                             <div>{{ item.description }}</div>
                         </v-card-text>
 
-                        <v-card-actions>
+                        <v-card-actions class="d-flex justify-end">
                             <v-btn 
                                 color="white" 
                                 text="Add to cart"
                                 prepend-icon="mdi-cart-check"
-                                elevation="2"
-                                class="bg-grey-darken-1"
-                            ></v-btn>
-
-                            <v-btn
-                                to="/checkout"
-                                color="white" 
-                                text="Buy now"
-                                prepend-icon="mdi-basket-fill"
                                 elevation="2"
                                 class="bg-red-lighten-1"
                             ></v-btn>

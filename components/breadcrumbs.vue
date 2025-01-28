@@ -9,23 +9,9 @@
 </template>
 
 <script setup>
-const items = ref([
-    {
-        title: "Home",
-        disabled: false,
-        href: "/",
-    },
-    {
-        title: "Manuals",
-        disabled: false,
-        href: "breadcrumbs_link_1",
-    },
-    {
-        title: "Category 2",
-        disabled: true,
-        href: "breadcrumbs_link_2",
-    },
-]);
+const props = defineProps({
+    items: Array,
+});
 </script>
 
 <style lang="scss" scoped></style>
