@@ -24,7 +24,8 @@ export default defineNuxtConfig({
                 config.plugins.push(vuetify({ autoImport: true }))
             })
         },
-        '@pinia/nuxt'
+        '@pinia/nuxt',
+        '@vee-validate/nuxt',
     ],
     plugins: [
         '~/plugins/modal.mjs'
