@@ -10,7 +10,7 @@
                 <v-btn
                     class="ms-auto"
                     text="Ok"
-                    @click="hideAccountModal()"
+                    @click="$hideModal()"
                 ></v-btn>
             </template>
         </v-card>
@@ -18,18 +18,12 @@
 </template>
 
 <script setup>
-import { useModalStore } from '@/store/modal';
-
 const props = defineProps({
     active: Boolean,
     default: false
 });
 
-const { hideModal } = useModalStore();
-
-const hideAccountModal = (modalComponent) => {
-    hideModal(modalComponent);
-};
+const { $hideModal } = useNuxtApp();
 
 </script>
 
