@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<v-menu v-model="menu" :close-on-content-click="false" transition="scale-transition">
+		<v-menu v-model="menu" :close-on-content-click="false" transition="scale-transition" scroll-strategy="close">
 			<template v-slot:activator="{ props }">
 				<v-btn
                     color="grey-darken-1"
@@ -18,6 +18,14 @@
 			</template>
 
 			<v-card min-width="300">
+                <template v-slot:append>
+                    <v-btn
+                        density="comfortable"
+                        icon="$close"
+                        variant="plain"
+                        @click="menu = !menu"
+                    ></v-btn>
+                </template>
 				<v-card-item>
                     <v-card-text>
                         <v-sheet class="mb-5">
@@ -36,7 +44,7 @@
                                     <h4 class="price-text-color text-right">${{ item.price }}.00</h4>
                                 </v-col>
                                 <v-col cols="12" sm="12" md="1" lg="1" xl="1" class="text-center">
-                                    <v-btn icon="mdi-delete" size="30" density="compact" color="red-lighten-1"></v-btn>
+                                    <v-btn icon="mdi-delete" size="30" color="red-lighten-1" variant="text"></v-btn>
                                 </v-col>
                             </v-row>
                         </v-sheet>

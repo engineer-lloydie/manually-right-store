@@ -6,7 +6,7 @@
         <v-sheet
             class="mx-auto"
             elevation="1"
-            max-width="1000"
+            max-width="1200"
         >
             <v-slide-group
                 class="pa-4"
