@@ -6,7 +6,8 @@
                     color="grey-darken-1"
                     class="text-none"
                     density="compact"
-                    size="50"
+                    size="40"
+                    variant="text"
                     rounded="circle"
                     stacked
                     v-bind="props"

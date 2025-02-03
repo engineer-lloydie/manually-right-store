@@ -1,9 +1,9 @@
 <template>
-    <v-layout>
-        <v-app-bar elevation="3" color="grey-lighten-3" height="100">
+    <div>
+        <v-card elevation="3" color="grey-lighten-3" class="d-flex align-center" height="100%">
             <v-container>
-                <v-row align="center">
-                    <v-col cols="4">
+                <v-row>
+                    <v-col cols="12" sm="12" md="4" class="d-flex justify-md-start justify-center align-center">
                         <v-img 
                             @click="$router.push('/')"
                             class="me-sm-8 cursor-pointer"
@@ -11,8 +11,8 @@
                             src="~/assets/images/partial-logo.png"
                         />
                     </v-col>
-                    <v-col cols="8">
-                        <div class="d-flex justify-end align-center">
+                    <v-col cols="12" sm="12" md="8" class="d-flex justify-center justify-md-end align-center">
+                        <div class="d-flex align-center">
                             <v-text-field
                                 :loading="searching"
                                 append-inner-icon="mdi-magnify"
@@ -21,17 +21,18 @@
                                 variant="solo"
                                 hide-details
                                 single-line
+                                width="300"
                                 @click:append-inner="search"
-                                max-width="300"
-                                class="px-4"
+                                class="global-search"
                             ></v-text-field>
                             
                             <v-btn
                                 color="grey-darken-1"
                                 class="text-none"
                                 density="compact"
-                                size="50"
+                                size="40"
                                 rounded="circle"
+                                variant="text"
                                 stacked
                                 @click="$showModal('auth-modal')"
                             >
@@ -43,14 +44,8 @@
                     </v-col>
                 </v-row>
             </v-container>
-        </v-app-bar>
-
-        <v-main>
-            <v-container>
-                <menu-tabs/>
-            </v-container>
-        </v-main>
-    </v-layout>
+        </v-card>
+    </div>
 </template>
 
 <script setup>
@@ -63,5 +58,10 @@ const search = () => {
 </script>
 
 <style lang="scss" scoped>
-
+@media screen and (max-width: 430px) {
+    .global-search {
+        width: 60vw !important;
+    }
+    
+}
 </style>

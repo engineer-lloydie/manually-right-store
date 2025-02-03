@@ -1,6 +1,9 @@
 <template>
     <v-app>
         <header-menu />
+        <v-container>
+            <menu-tabs/>
+        </v-container>
         <v-main>
             <slot />
         </v-main>

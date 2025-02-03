@@ -11,7 +11,7 @@
                             <v-btn
                                 variant="text"
                                 prepend-icon="mdi-file-document-arrow-right"
-                                :to="`/documents/categories/${item.id}`"
+                                :to="`/manuals/categories/${item.url_slug}`"
                                 active-color="red-lighten-1"
                                 elevation="10"
                             >
@@ -42,10 +42,10 @@ const breadcrumbItems = ref([
 ]);
 
 const items = [
-    { text: 'Category 1', id: 1 },
-    { text: 'Category 2', id: 2 },
-    { text: 'Category 3', id: 3 },
-    { text: 'Category 4', id: 4 }
+    { text: 'Category 1', id: 1, url_slug: 'category-1' },
+    { text: 'Category 2', id: 2, url_slug: 'category-2' },
+    { text: 'Category 3', id: 3, url_slug: 'category-3' },
+    { text: 'Category 4', id: 4, url_slug: 'category-4' }
 ]
 
 </script>
