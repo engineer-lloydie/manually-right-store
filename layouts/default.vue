@@ -1,11 +1,13 @@
 <template>
     <v-app>
         <header-menu />
-        <v-container>
+        <v-container max-width="1300">
             <menu-tabs/>
         </v-container>
         <v-main>
-            <slot />
+            <v-container max-width="1300">
+                <slot />
+            </v-container>
         </v-main>
         <footer-menu />
         <component v-if="isActiveModal" :active="true" :is="activeModalComponent"></component>

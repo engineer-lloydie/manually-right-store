@@ -1,6 +1,6 @@
 <template>
     <div class="mt-5">
-        <v-container max-width="1200">
+        <v-container max-width="1300">
             <v-sheet class="d-flex mb-6 align-end justify-space-between">
                 <v-img
                     src="~/assets/images/partial-logo.png"
