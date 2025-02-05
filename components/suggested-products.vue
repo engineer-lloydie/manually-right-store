@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-sheet class="mb-10">
-            <h1 class="text-center">OUR BEST SELLING</h1>
+            <h1 class="text-center">{{ props.title }}</h1>
         </v-sheet>
         <v-sheet
             class="mx-auto"
@@ -40,6 +40,14 @@
                         </v-card-text>
 
                         <v-card-actions class="d-flex justify-end">
+                            <v-btn
+                                :to="`/manuals/categories/${item.category_slug}/${item.url_slug}`"
+                                color="white" 
+                                text="View Details"
+                                prepend-icon="mdi-text-box-search-outline"
+                                elevation="2"
+                                class="bg-grey-darken-3"
+                            ></v-btn>
                             <v-btn 
                                 color="white" 
                                 text="Add to cart"
@@ -56,32 +64,21 @@
 </template>
 
 <script setup>
-const manualItems = ref([
-    {
-        id: 1,
-        name: 'Air & Space Model 18A Gyroplane Maintenance & Rigging Manual 1965 (Report No. UER 18-601)',
-        description: "Air & Space Model 18A Gyroplane Maintenance & Rigging Manual 1965 (Report No. UER 18-601)",
-        price: 100
+
+const props = defineProps({
+    title: {
+        type: String,
+        required: true
     },
-    {
-        id: 2,
-        name: 'Air & Space Model 18A Gyroplane Maintenance & Rigging Manual 1965 (Report No. UER 18-601)',
-        description: "Air & Space Model 18A Gyroplane Maintenance & Rigging Manual 1965 (Report No. UER 18-601)",
-        price: 100
+    flag: {
+        type: String,
+        required: true
     },
-    {
-        id: 3,
-        name: 'Air & Space Model 18A Gyroplane Maintenance & Rigging Manual 1965 (Report No. UER 18-601)',
-        description: "Air & Space Model 18A Gyroplane Maintenance & Rigging Manual 1965 (Report No. UER 18-601)",
-        price: 100
-    },
-    {
-        id: 4,
-        name: 'Air & Space Model 18A Gyroplane Maintenance & Rigging Manual 1965 (Report No. UER 18-601)',
-        description: "Air & Space Model 18A Gyroplane Maintenance & Rigging Manual 1965 (Report No. UER 18-601)",
-        price: 100
+    manualItems: {
+        type: Array,
+        required: true
     }
-]);
+});
 </script>
 
 <style lang="scss" scoped>
