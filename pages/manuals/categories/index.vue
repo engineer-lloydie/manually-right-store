@@ -2,23 +2,33 @@
     <div class="pt-0">
         <breadcrumbs :items="breadcrumbItems"/>
         <v-card elevation="10" class="pa-4">
-            <v-card-title class="mb-5">Manuals</v-card-title>
+            <v-card-title class="mb-5">Main Categories</v-card-title>
             <v-card-text>
                 <v-row>
-                    <v-col v-for="(item, i) in items" :key="i" xl="3" lg="3" md="4" sm="6" cols="12">
-                        <v-btn
-                            variant="text"
-                            prepend-icon="mdi-file-document-arrow-right"
-                            :to="`/manuals/categories/${item.url_slug}`"
-                            active-color="red-lighten-1"
-                            elevation="10"
-                        >
-                        <template v-slot:prepend>
-                            <v-icon color="red-lighten-1"></v-icon>
-                        </template>
-                            {{ item.text }}
-                        </v-btn>
+                    <v-col class="d-flex justify-center" cols="12" v-if="fetching">
+                        <v-progress-circular color="red-lighten-1" indeterminate></v-progress-circular>
                     </v-col>
+                    <template v-else>
+                        <template v-if="!mainCategories.length">
+                            <p class="text-center">No records found.</p>
+                        </template>
+                        <template v-else>
+                            <v-col v-for="(item, i) in mainCategories" :key="i" cols="12">
+                                <v-btn
+                                    variant="text"
+                                    prepend-icon="mdi-folder-file-outline"
+                                    :to="`/manuals/categories/${item.url_slug}`"
+                                    active-color="red-lighten-1"
+                                    elevation="10"
+                                >
+                                <template v-slot:prepend>
+                                    <v-icon color="red-lighten-1"></v-icon>
+                                </template>
+                                    {{ item.name }}
+                                </v-btn>
+                            </v-col>
+                        </template>
+                    </template>
                 </v-row>
             </v-card-text>
         </v-card>
@@ -33,18 +43,31 @@ const breadcrumbItems = ref([
         to: "/",
     },
     {
-        title: "Manuals",
+        title: "Main Categories",
         disabled: true,
     }
 ]);
 
-const items = [
-    { text: 'Category 1', id: 1, url_slug: 'category-1' },
-    { text: 'Category 2', id: 2, url_slug: 'category-2' },
-    { text: 'Category 3', id: 3, url_slug: 'category-3' },
-    { text: 'Category 4', id: 4, url_slug: 'category-4' }
-]
+const mainCategories = ref([]);
+const fetching = ref(false);
 
+const fetchMainCategories = async () => {
+    try {
+        fetching.value = true;
+
+        const { data } = await useBaseFetch('/store/main-categories', {
+            method: 'GET'
+        });
+
+        mainCategories.value = data;
+    } catch (error) {
+        console.error(error);
+    } finally {
+        fetching.value = false;
+    }
+}
+
+fetchMainCategories();
 </script>
 
 <style lang="scss" scoped>

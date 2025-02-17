@@ -12,7 +12,7 @@ dotenv.config({ path: fs.existsSync(envPath) ? envPath : defaultEnvPath });
 
 export default defineNuxtConfig({
     compatibilityDate: '2024-11-11',
-    devtools: { enabled: true },
+    devtools: { enabled: false },
     runtimeConfig: {
         public: {
             apiBaseUrl: process.env.BASE_URL
