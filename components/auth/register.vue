@@ -3,25 +3,25 @@
         <v-sheet>
             <form @submit.prevent="register">
                 <v-text-field
-                    v-model="firstName.value.value"
+                    v-model="first_name.value.value"
                     :counter="10"
-                    :error-messages="firstName.errorMessage.value"
+                    :error-messages="first_name.errorMessage.value"
                     variant="outlined"
                     clearable
                     label="First Name"
                 ></v-text-field>
             
                 <v-text-field
-                    v-model="lastName.value.value"
-                    :error-messages="lastName.errorMessage.value"
+                    v-model="last_name.value.value"
+                    :error-messages="last_name.errorMessage.value"
                     variant="outlined"
                     clearable
                     label="Last Name"
                 ></v-text-field>
                 
                 <v-text-field
-                    v-model="emailAddress.value.value"
-                    :error-messages="emailAddress.errorMessage.value"
+                    v-model="email_address.value.value"
+                    :error-messages="email_address.errorMessage.value"
                     variant="outlined"
                     clearable
                     label="Email Address"
@@ -56,17 +56,17 @@ import { useField, useForm } from 'vee-validate'
 
 const { handleSubmit } = useForm({
     validationSchema: {
-        firstName (value) {
+        first_name (value) {
             if (value?.length >= 0) return true
 
             return 'First name is required.'
         },
-        lastName (value) {
+        last_name (value) {
             if (value?.length >= 0) return true
 
             return 'Last name is required.'
         },
-        emailAddress (value) {
+        email_address (value) {
             if (/^[a-z.-]+@[a-z.-]+\.[a-z]+$/i.test(value)) return true
 
             return 'Must be a valid e-mail.'
@@ -79,15 +79,29 @@ const { handleSubmit } = useForm({
     },
 })
 
-const firstName = useField('firstName');
-const lastName = useField('lastName');
-const emailAddress = useField('emailAddress');
+const first_name = useField('first_name');
+const last_name = useField('last_name');
+const email_address = useField('email_address');
 const password = useField('password');
 
 const passwordVisible = ref(false);
 
-const register = handleSubmit(values => {
-    alert(JSON.stringify(values, null, 2))
+const register = handleSubmit(async (values) => {
+    try {
+        const { status } = await useBaseFetch('/register', {
+            method: 'POST',
+            body: values
+        })
+
+        if (status == 200) {
+            await login({
+                email_address: values.email_address,
+                password: values.password
+            });
+        }
+    } catch (error) {
+        console.error(error);
+    }
 })
 </script>
 

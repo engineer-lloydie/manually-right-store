@@ -19,13 +19,9 @@ export default defineNuxtConfig({
         }
     },
     modules: [
-        (_options, nuxt) => {
-            nuxt.hooks.hook('vite:extendConfig', (config) => {
-                config.plugins.push(vuetify({ autoImport: true }))
-            })
-        },
         '@pinia/nuxt',
         '@vee-validate/nuxt',
+        'nuxt-auth-sanctum'
     ],
     plugins: [
         '~/plugins/modal.mjs'
@@ -40,6 +36,7 @@ export default defineNuxtConfig({
         transpile: ['vuetify'],
     },
     vite: {
+        plugins: [vuetify({ autoImport: true })],
         ssr: {
             noExternal: ['vuetify']
         },
@@ -55,5 +52,16 @@ export default defineNuxtConfig({
                 }
             }
         }
-    }
+    },
+    sanctum: {
+        baseUrl: process.env.AUTH_BASE_URL,
+        mode: 'token',
+        endpoints: {
+            login: '/api/login',
+            logout: '/api/logout'
+        },
+        redirect: {
+            onLogin: false
+        }
+    },
 })

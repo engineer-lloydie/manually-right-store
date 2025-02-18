@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="props.active" width="auto" persistent>
+    <v-dialog v-model="props.active" width="auto" persistent :mobile="false">
         <v-card
             width="600"
         >

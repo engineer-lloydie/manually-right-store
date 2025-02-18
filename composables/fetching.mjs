@@ -21,7 +21,8 @@ export const useBaseFetch = async (request, opts) => {
     const config = useRuntimeConfig();
 
     return await $fetch(request, { 
-        baseURL: config.public.apiBaseUrl, 
+        baseURL: config.public.apiBaseUrl,
+        credentials: 'include', 
         ...opts 
     });
 };

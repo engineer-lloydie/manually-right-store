@@ -34,27 +34,69 @@
                                 rounded="circle"
                                 variant="text"
                                 stacked
-                                @click="$showModal('auth-modal')"
+                                @click="handleDialog()"
                             >
-                                <v-icon>mdi-account</v-icon>
+                                <v-icon>{{ isAuthenticated ? 'mdi-logout' : 'mdi-account' }}</v-icon>
                             </v-btn>
-                            
                             <cart-items/>
                         </div>
                     </v-col>
                 </v-row>
             </v-container>
         </v-card>
+        <v-dialog
+            v-model="logoutDialog"
+            width="auto"
+        >
+            <v-card
+                max-width="400"
+                prepend-icon="mdi-update"
+                text="Are you sure you want to logout?"
+                title="Logout"
+            >
+                <template v-slot:actions>
+                    <v-btn
+                        class="ms-auto"
+                        text="Cancel"
+                        @click="logoutDialog = false"
+                    ></v-btn>
+                    <v-btn
+                        class="ms-auto"
+                        text="Yes"
+                        @click="logoutUser"
+                    ></v-btn>
+                </template>
+            </v-card>
+        </v-dialog>
     </div>
 </template>
 
 <script setup>
+const { isAuthenticated, logout } = useSanctumAuth();
 const { $showModal } = useNuxtApp()
 
 const searching = ref(false);
 const search = () => {
     searching.value = true;
 };
+const logoutDialog = ref(false);
+
+const handleDialog = () => {
+    if (isAuthenticated.value) {
+        logoutDialog.value = true;
+    } else {
+        $showModal('auth-modal');
+    }
+}
+
+const logoutUser = (async () => {
+    try {
+        await logout();
+        logoutDialog.value = false;
+    } catch (error) {
+        console.error(error)
+    }
+})
 </script>
 
 <style lang="scss" scoped>
