@@ -26,6 +26,7 @@
                                 class="global-search"
                             ></v-text-field>
                             
+                            <cart-items/>
                             <v-btn
                                 color="grey-darken-1"
                                 class="text-none"
@@ -38,7 +39,6 @@
                             >
                                 <v-icon>{{ isAuthenticated ? 'mdi-logout' : 'mdi-account' }}</v-icon>
                             </v-btn>
-                            <cart-items/>
                         </div>
                     </v-col>
                 </v-row>
