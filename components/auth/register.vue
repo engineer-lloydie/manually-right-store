@@ -37,12 +37,21 @@
                     label="Password"
                     @click:append-inner="passwordVisible = !passwordVisible"
                 ></v-text-field>
+
+                <v-alert
+                    v-if="errorMessage"
+                    density="compact"
+                    :text="errorMessage"
+                    type="error"
+                    closable
+                ></v-alert>
             
                 <v-btn
                     class="mt-2"
                     type="submit"
                     color="red-lighten-1"
                     block
+                    :loading="processing"
                 >
                     Register
                 </v-btn>
@@ -53,6 +62,8 @@
 
 <script setup>
 import { useField, useForm } from 'vee-validate'
+const { login } = useSanctumAuth();
+const { $hideModal } = useNuxtApp()
 
 const { handleSubmit } = useForm({
     validationSchema: {
@@ -83,24 +94,31 @@ const first_name = useField('first_name');
 const last_name = useField('last_name');
 const email_address = useField('email_address');
 const password = useField('password');
+const processing = ref(false);
+const errorMessage = ref(null);
 
 const passwordVisible = ref(false);
 
 const register = handleSubmit(async (values) => {
     try {
-        const { status } = await useBaseFetch('/register', {
+        processing.value = true;
+        errorMessage.value = null;
+        await useBaseFetch('/register', {
             method: 'POST',
             body: values
-        })
+        });
 
-        if (status == 200) {
-            await login({
-                email_address: values.email_address,
-                password: values.password
-            });
-        }
+        await login({
+            email_address: values.email_address,
+            password: values.password
+        });
+        
+        $hideModal();
     } catch (error) {
+        errorMessage.value = error?.response?._data?.message ?? (error?.message ?? 'Unknown error occured. Please try again with a different email address.')
         console.error(error);
+    } finally {
+        processing.value = false;
     }
 })
 </script>

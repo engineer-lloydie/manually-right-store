@@ -5,7 +5,7 @@
         <v-card>
             <v-card-text>
                 <v-container>
-                    <v-sheet class="d-flex justify-center" cols="12" v-if="fetching">
+                    <v-sheet class="d-flex justify-center ma-16" cols="12" v-if="fetching">
                         <v-progress-circular color="red-lighten-1" indeterminate></v-progress-circular>
                     </v-sheet>
                     <v-row v-else>

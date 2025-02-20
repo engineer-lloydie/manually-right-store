@@ -2,12 +2,12 @@
     <div class="pt-0">
         <breadcrumbs :items="breadcrumbItems" />
         <v-card>
-            <v-sheet class="d-flex justify-center" cols="12" v-if="fetching">
+            <v-sheet class="d-flex justify-center ma-16" cols="12" v-if="fetching">
                 <v-progress-circular color="red-lighten-1" indeterminate></v-progress-circular>
             </v-sheet>
             <template v-else>
                 <v-sheet v-if="!manualItems.length">
-                    <p class="text-center">No records found.</p>
+                    <p class="text-center ma-16">No records found.</p>
                 </v-sheet>
                 <v-row
                     v-else
@@ -34,7 +34,7 @@
                             >
                             </v-img>
 
-                            <v-card-title>{{ item.name }}</v-card-title>
+                            <v-card-title>{{ item.title }}</v-card-title>
 
                             <v-card-subtitle class="text-h6 font-weight-bold">
                                 ${{ item.price }}.00
@@ -53,12 +53,14 @@
                                     elevation="2"
                                     class="bg-grey-darken-3"
                                 ></v-btn>
-                                <v-btn 
+                                <v-btn
+                                    @click="addCart(item)"
                                     color="white" 
                                     text="Add to cart"
                                     prepend-icon="mdi-cart-check"
                                     elevation="2"
                                     class="bg-red-lighten-1"
+                                    :loading="cartStore.addingCart"
                                 ></v-btn>
                             </v-card-actions>
                         </v-card>
@@ -77,7 +79,11 @@
 </template>
 
 <script setup>
+import { useCartStore } from '@/store/cart';
+
+const { isAuthenticated, user } = useSanctumAuth();
 const route = useRoute();
+const cartStore = useCartStore();
 
 const breadcrumbItems = ref([
     {
@@ -101,7 +107,7 @@ const breadcrumbItems = ref([
     }
 ]);
 
-const fetching = ref(false);
+const fetching = ref(true);
 const manualItems = ref([]);
 
 const fetchManualItems = async () => {
@@ -129,13 +135,41 @@ const fetchManualItems = async () => {
     }
 }
 
-fetchManualItems();
+onMounted(() => {
+    fetchManualItems();
+})
 
 const page = ref(1);
 
 const pageCount = computed(() => {
     return Math.ceil(manualItems.value.length / 8);
 });
+
+const addCart = async(manual) => {
+    try {
+        cartStore.setNewAddedCart(false);
+        await cartStore.addToCart({
+            userId: isAuthenticated.value ? user.value.id : null,
+            guestId: isAuthenticated.value ? null : localStorage.getItem('guestId'),
+            manualId: manual.id,
+            price: manual.price,
+            quantity: 1
+        });
+
+        const params = {};
+        
+        if (isAuthenticated.value) {
+            params.userId = user.value.id;
+        } else {
+            params.guestId = localStorage.getItem('guestId')
+        }
+
+        await cartStore.fetchCartItems(params);
+        cartStore.setNewAddedCart(true);
+    } catch (error) {
+        console.error(error);
+    }
+}
 </script>
 
 <style lang="scss" scoped>

@@ -26,10 +26,13 @@
                                 class="global-search"
                             ></v-text-field>
                             
-                            <cart-items/>
+                            <cart-items class="mx-2"/>
+
+                            <v-divider vertical inset></v-divider>
+
                             <v-btn
                                 color="grey-darken-1"
-                                class="text-none"
+                                class="text-none mx-2"
                                 density="compact"
                                 size="40"
                                 rounded="circle"

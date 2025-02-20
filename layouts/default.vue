@@ -28,4 +28,11 @@ const activeModalComponent = computed(() => {
     
     return components[modalStore.activeModalComponent];
 });
+
+onMounted(() => {
+    if (!localStorage.getItem('guestId')) {
+        const randomNumber = String(Math.floor(1000000000 + Math.random() * 9000000000));
+        localStorage.setItem('guestId', randomNumber);
+    }
+})
 </script>

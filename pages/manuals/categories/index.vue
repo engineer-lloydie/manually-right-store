@@ -5,12 +5,12 @@
             <v-card-title class="mb-5">Main Categories</v-card-title>
             <v-card-text>
                 <v-row>
-                    <v-col class="d-flex justify-center" cols="12" v-if="fetching">
+                    <v-col class="d-flex justify-center ma-16" cols="12" v-if="fetching">
                         <v-progress-circular color="red-lighten-1" indeterminate></v-progress-circular>
                     </v-col>
                     <template v-else>
                         <template v-if="!mainCategories.length">
-                            <p class="text-center">No records found.</p>
+                            <p class="text-center ma-16">No records found.</p>
                         </template>
                         <template v-else>
                             <v-col v-for="(item, i) in mainCategories" :key="i" cols="12">

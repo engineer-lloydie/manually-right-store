@@ -4,12 +4,12 @@
         <v-card elevation="10" class="pa-4">
             <v-card-title class="mb-5">Sub Categories</v-card-title>
             <v-card-text>
-                <v-sheet class="d-flex justify-center" cols="12" v-if="fetching">
+                <v-sheet class="d-flex justify-center ma-16" cols="12" v-if="fetching">
                     <v-progress-circular color="red-lighten-1" indeterminate></v-progress-circular>
                 </v-sheet>
                 <template v-else>
                     <template v-if="!subCategories.length">
-                        <p class="text-center">No records found.</p>
+                        <p class="text-center ma-16">No records found.</p>
                     </template>
                     <v-list density="compact">
                         <v-list-item
