@@ -4,32 +4,31 @@
         <v-card elevation="10" class="pa-4">
             <v-card-title class="mb-5">Main Categories</v-card-title>
             <v-card-text>
-                <v-row>
-                    <v-col class="d-flex justify-center ma-16" cols="12" v-if="fetching">
-                        <v-progress-circular color="red-lighten-1" indeterminate></v-progress-circular>
-                    </v-col>
-                    <template v-else>
-                        <template v-if="!mainCategories.length">
-                            <p class="text-center ma-16">No records found.</p>
-                        </template>
-                        <template v-else>
-                            <v-col v-for="(item, i) in mainCategories" :key="i" cols="12">
-                                <v-btn
-                                    variant="text"
-                                    prepend-icon="mdi-folder-file-outline"
-                                    :to="`/manuals/categories/${item.url_slug}`"
-                                    active-color="red-lighten-1"
-                                    elevation="10"
-                                >
-                                <template v-slot:prepend>
-                                    <v-icon color="red-lighten-1"></v-icon>
-                                </template>
-                                    {{ item.name }}
-                                </v-btn>
-                            </v-col>
-                        </template>
+                <v-sheet class="d-flex justify-center ma-16" v-if="fetching">
+                    <v-progress-circular color="red-lighten-1" indeterminate></v-progress-circular>
+                </v-sheet>
+                <template v-else>
+                    <template v-if="!mainCategories.length">
+                        <p class="text-center ma-16">No records found.</p>
                     </template>
-                </v-row>
+                    <template v-else>
+                        <v-list density="compact">
+                            <v-list-item
+                                v-for="(item, i) in mainCategories"
+                                :key="i"
+                                :value="item"
+                                :to="`/manuals/categories/${item.url_slug}`"
+                                color="red-lighten-1"
+                            >
+                                <template v-slot:prepend>
+                                    <v-icon icon="mdi-folder-file-outline" color="red-lighten-1"></v-icon>
+                                </template>
+
+                                <v-list-item-title>{{ item.name }}</v-list-item-title>
+                            </v-list-item>
+                        </v-list>
+                    </template>
+                </template>
             </v-card-text>
         </v-card>
     </div>

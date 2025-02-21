@@ -30,34 +30,23 @@
                                 <v-sheet>
                                     <h3>Checkout Information</h3>
                                 </v-sheet>
-                                <v-sheet class="my-3">
-                                    <v-row>
-                                        <v-col>
-                                            <v-text-field
-                                                :rules="[firstName.required]"
-                                                label="First name"
-                                                variant="outlined"
-                                                clearable
-                                            ></v-text-field>
-                                        </v-col>
-                                        <v-col>
-                                            <v-text-field
-                                                :rules="[lastName.required]"
-                                                label="Last name"
-                                                variant="outlined"
-                                                clearable
-                                            ></v-text-field>
-                                        </v-col>
-                                    </v-row>
-                                </v-sheet>
-                                <v-sheet class="my-3">
-                                    <v-text-field
-                                        :rules="[emailAddress.required]"
-                                        label="Email address"
-                                        variant="outlined"
-                                        clearable
-                                    ></v-text-field>
-                                </v-sheet>
+                                <v-list lines="two">
+                                    <v-list-item title="First Name:" disabled>
+                                        <h4>{{ checkoutInformation.firstName }}</h4>
+                                    </v-list-item>
+
+                                    <v-divider></v-divider>
+
+                                    <v-list-item title="Last Name:" disabled>
+                                        <h4>{{ checkoutInformation.lastName }}</h4>
+                                    </v-list-item>
+
+                                    <v-divider></v-divider>
+                                    
+                                    <v-list-item title="Email Address:" disabled>
+                                        <h4>{{ checkoutInformation.emailAddress }}</h4>
+                                    </v-list-item>
+                                </v-list>
                             </v-card-item>
                         </v-card>
                         <v-card class="my-5">
@@ -65,11 +54,8 @@
                                 <v-sheet>
                                     <h3>Payment</h3>
                                 </v-sheet>
-                                <v-sheet>
-                                    <v-btn>
-                                        <v-icon>mdi-cash-clock</v-icon>
-                                        Paypal
-                                    </v-btn>
+                                <v-sheet class="mt-6">
+                                    <div id="paypal-button-container"></div>
                                 </v-sheet>
                             </v-card-item>
                         </v-card>
@@ -84,7 +70,7 @@
                                     <v-row>
                                         <v-col class="d-flex justify-space-between">
                                             <h4 class="font-weight-regular">Number of Item(s)</h4>
-                                            <p class="font-weight-regular">{{ cartItems.length }}</p>
+                                            <p class="font-weight-regular">{{ cartStore.totalCount }}</p>
                                         </v-col>
                                     </v-row>
     
@@ -93,7 +79,7 @@
                                     <v-row>
                                         <v-col class="d-flex justify-space-between">
                                             <h4 class="font-weight-regular">Total Cost</h4>
-                                            <h4 class="price-text-color text-right">${{ totalCost }}.00</h4>
+                                            <h4 class="price-text-color text-right">${{ cartStore.totalPrice }}.00</h4>
                                         </v-col>
                                     </v-row>
                                 </v-card-item>
@@ -105,21 +91,36 @@
                                     <v-sheet class="mb-5">
                                         <h3>Item Summary</h3>
                                     </v-sheet>
-                                    <v-row v-for="item in cartItems" :key="item.id">
-                                        <v-col cols="3">
-                                            <v-img 
-                                                src="~/assets/images/thumbnail.jpeg"
-                                                max-height="100"
-                                            />
-                                        </v-col>
-                                        <v-col cols="6">
-                                            <h5 class="mb-1">{{ item.name }}</h5>
-                                            <h5 class="font-weight-regular">Quantity: {{ item.quantity }}</h5>
-                                        </v-col>
-                                        <v-col cols="3">
-                                            <h4 class="price-text-color text-right">${{ item.price }}.00</h4>
-                                        </v-col>
-                                    </v-row>
+                                    <v-sheet class="d-flex justify-center ma-16" v-if="cartStore.fetchingCarts">
+                                        <v-progress-circular color="red-lighten-1" indeterminate></v-progress-circular>
+                                    </v-sheet>
+                                    <v-sheet v-else>
+                                        <v-sheet v-if="cartStore.totalCount == 0">
+                                            <p class="text-center">No records found</p>
+                                        </v-sheet>
+                                        <v-virtual-scroll v-else height="295" item-height="50" :items="cartStore.cartItems">
+                                            <template v-slot:default="{ item }">
+                                                <v-list-item class="pa-0 my-5">
+                                                    <template v-slot:prepend>
+                                                        <v-img 
+                                                            :src="item.thumbnail"
+                                                            width="50"
+                                                            height="50"
+                                                        />
+                                                    </template>
+
+                                                    <v-sheet class="ms-5">
+                                                        <h5 class="mb-1">{{ item.title }}</h5>
+                                                        <h5 class="font-weight-regular">Quantity: {{ item.quantity }}</h5>
+                                                    </v-sheet>
+
+                                                    <template v-slot:append>
+                                                        <h5 class="price-text-color text-right font-weight-medium">${{ item.price }}.00</h5>
+                                                    </template>
+                                                </v-list-item>
+                                            </template>
+                                        </v-virtual-scroll>
+                                    </v-sheet>
                                 </v-card-item>
                             </v-card>
                         </v-sheet>
@@ -131,42 +132,82 @@
 </template>
 
 <script setup>
+import { useCartStore } from '@/store/cart';
+import { useAuthStore } from '@/store/auth';
+
 definePageMeta({
     layout: false,
 });
 
-const totalCost = computed(() => {
-    return cartItems.value.reduce((acc, item) => {
-        return acc + (item.price * item.quantity);
-    }, 0);
-});
+const cartStore = useCartStore();
+const authStore = useAuthStore();
 
-const cartItems = ref([
-    {
-        id: 1,
-        name: 'Air & Space Model 18A Gyroplane Maintenance & Rigging Manual 1965 (Report No. UER 18-601)',
-        price: 17,
-        quantity: 1
-    },
-    {
-        id: 2,
-        name: 'Air & Space Model 18A Gyroplane Maintenance & Rigging Manual 1965 (Report No. UER 18-601)',
-        price: 17,
-        quantity: 1
+const { isAuthenticated, user } = useSanctumAuth();
+
+const fetchCarts = async () => {
+    await cartStore.fetchCartItems();
+
+    if (!cartStore.totalCount) {
+        navigateTo('/');
     }
-]);
+}
 
-const firstName = ref({
-    required: (v) => !!v || 'First name is required.',
+fetchCarts();
+
+onMounted(async () => {
+    const { loadPayPal } = usePayPal();
+    await loadPayPal();
+
+    if (window.paypal) {
+        window.paypal.Buttons({
+            createOrder: async () => {
+                try {
+                    const response = await useBaseFetch('/create-order', {
+                        method: 'post',
+                        body: {
+                            totalPrice: cartStore.totalPrice
+                        }
+                    });
+
+                    return response.orderID
+                } catch (error) {
+                    console.error('createOrder', error);
+                }
+            },
+            async onApprove(data, actions) {
+                try {
+                    const response = await useBaseFetch('/capture-order', {
+                        method: 'post',
+                        body: { orderID: data.orderID }
+                    });
+                } catch (error) {
+                    console.error('onApprove', response);
+                }
+            },
+            onError(err) {
+                console.error('PayPal error', err);
+            }
+        }).render('#paypal-button-container');
+    } else {
+        console.error('PayPal SDK failed to load.');
+    }
 });
 
-const lastName = ({
-    required: (v) => !!v || 'Last name is required.',
-});
+const checkoutInformation = ref({});
 
-const emailAddress = ({
-    required: (v) => !!v || 'Email address is required.',
-});
+if (isAuthenticated.value) {
+    checkoutInformation.value = {
+        firstName: user.value.first_name,
+        lastName: user.value.last_name,
+        emailAddress: user.value.email_address
+    }
+} else {
+    checkoutInformation.value = {
+        firstName: authStore.guestCheckoutCredentials.first_name,
+        lastName: authStore.guestCheckoutCredentials.last_name,
+        emailAddress: authStore.guestCheckoutCredentials.email_address
+    }
+}
 </script>
 
 <style lang="scss" scoped>

@@ -32,9 +32,19 @@ export const useCartStore = defineStore("cart", {
         }
     },
     actions: {
-        async fetchCartItems(params) {
+        async fetchCartItems() {
+            const { isAuthenticated, user } = useSanctumAuth();
+
             try {
                 this.fetching = true;
+
+                const params = {};
+        
+                if (isAuthenticated.value) {
+                    params.userId = user.value.id;
+                } else {
+                    params.guestId = localStorage.getItem('guestId')
+                }
         
                 const { data, count, total } = await useBaseFetch('/carts', {
                     method: 'GET',
@@ -63,6 +73,23 @@ export const useCartStore = defineStore("cart", {
                 throw error;
             } finally {
                 this.processing = false;
+            }
+        },
+        async transferCart() {
+            const { user } = useSanctumAuth();
+
+            try {
+                const cartIds = this.cartItems.map(cart => cart.id);
+                
+                await useBaseFetch('/carts/transfer', {
+                    method: 'POST',
+                    body: {
+                        userId: user.value.id,
+                        cartIds: cartIds
+                    }
+                })
+            } catch (error) {
+                console.error(error);
             }
         },
         setNewAddedCart(value) {

@@ -41,8 +41,9 @@
                                 <v-row v-for="(item, index) in cartStore.cartItems" :key="item.id" align="center">
                                     <v-col cols="12" sm="3" md="3" lg="3" xl="3">
                                         <v-img 
-                                            src="~/assets/images/thumbnail.jpeg"
-                                            max-height="100"
+                                            :src="item.thumbnail"
+                                            width="70"
+                                            height="70"
                                         />
                                     </v-col>
                                     <v-col cols="12" sm="5" md="5" lg="5" xl="5">
@@ -55,7 +56,7 @@
                                     <v-col cols="12" sm="2" md="2" lg="2" xl="2" class="text-center">
                                         <v-btn :loading="processing && selectedCart == item.id" icon="mdi-delete" size="30" color="red-lighten-1" variant="text" @click="deleteCart(item.id)"></v-btn>
                                     </v-col>
-                                    <v-divider inset v-if="(index + 1) != cartStore.cartItems.length"></v-divider>
+                                    <v-divider v-if="(index + 1) != cartStore.cartItems.length"></v-divider>
                                 </v-row>
                             </v-sheet>
                             <v-sheet color="grey-lighten-3 pa-5 mb-5">
@@ -71,7 +72,7 @@
                                 </div>
                             </v-sheet>
                             <v-sheet>
-                                <v-btn to="/checkout" prepend-icon="mdi-cart-arrow-up" color="red-lighten-1">
+                                <v-btn @click="checkout" prepend-icon="mdi-cart-arrow-up" color="red-lighten-1">
                                     Checkout
                                 </v-btn>
                             </v-sheet>
@@ -86,14 +87,19 @@
 
 <script setup>
 import { useCartStore } from '@/store/cart';
+import { useModalStore } from '@/store/modal';
 import { storeToRefs } from 'pinia'
+
 const menu = ref(false);
 const cartStore = useCartStore();
-const { isAuthenticated, user } = useSanctumAuth();
+const modalStore = useModalStore();
+const { isAuthenticated } = useSanctumAuth();
 const showAlert = ref(false);
 const alertMessage = ref(null);
 const processing = ref(false);
 const selectedCart = ref(null);
+
+const { $showModal, $hideModal } = useNuxtApp();
 
 const { newCartAdded } = storeToRefs(cartStore);
 
@@ -102,6 +108,10 @@ watch(newCartAdded, (newValue, oldValue) => {
         menu.value = true;
         alertMessage.value = 'A new cart has been added successfully.'
         showAlert.value = true;
+
+        setTimeout(() => {
+            showAlert.value = false;
+        }, 3000); 
     }
 })
 
@@ -114,10 +124,14 @@ const deleteCart = async(cartId) => {
             method: 'DELETE'
         });
 
-        fetchCarts();
+        await fetchCarts();
 
         alertMessage.value = 'Cart has been deleted successfully.'
         showAlert.value = true;
+
+        setTimeout(() => {
+            showAlert.value = false;
+        }, 3000);
     } catch (error) {
         console.error(error);
     } finally {
@@ -126,21 +140,23 @@ const deleteCart = async(cartId) => {
     }
 }
 
-const fetchCarts = () => {
-    const params = {};
-        
-    if (isAuthenticated.value) {
-        params.userId = user.value.id;
-    } else {
-        params.guestId = localStorage.getItem('guestId')
-    }
-
-    cartStore.fetchCartItems(params);
+const fetchCarts = async () => {
+    await cartStore.fetchCartItems();
 }
 
 onMounted(() => {
     fetchCarts();
 });
+
+const checkout = () => {
+    if (isAuthenticated.value) {
+        $hideModal();
+        navigateTo('/checkout');
+    } else {
+        modalStore.setCheckoutSource(true);
+        $showModal('auth-modal');
+    }
+}
 
 </script>
 

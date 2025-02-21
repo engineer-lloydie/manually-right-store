@@ -75,8 +75,8 @@
 </template>
 
 <script setup>
-const { isAuthenticated, logout } = useSanctumAuth();
-const { $showModal } = useNuxtApp()
+const { isAuthenticated } = useSanctumAuth();
+const { $showModal, $logout } = useNuxtApp()
 
 const searching = ref(false);
 const search = () => {
@@ -94,7 +94,7 @@ const handleDialog = () => {
 
 const logoutUser = (async () => {
     try {
-        await logout();
+        await $logout();
         logoutDialog.value = false;
     } catch (error) {
         console.error(error)

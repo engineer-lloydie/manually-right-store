@@ -15,18 +15,24 @@
                             <v-sheet height="30"></v-sheet>
 
                             <v-sheet>
-                                <v-row>
-                                    <v-col cols="6" lg="4" v-for="(thumbnail, index) in manualDetails.thumbnails" :key="index">
-                                        <v-btn 
-                                            height="auto"
-                                            :active="selectedThumbnail == index"
-                                            active-color="red-lighten-1"
-                                            @click="selectedThumbnail = index"
-                                        >
-                                            <v-img :src="thumbnail.file_url" width="100" height="110"></v-img>
-                                        </v-btn>
-                                    </v-col>
-                                </v-row>
+                                <v-card>
+                                    <v-card-text>
+                                        <v-row>
+                                            <v-col cols="4" lg="3" class="pa-1" v-for="(thumbnail, index) in manualDetails.thumbnails" :key="index">
+                                                <v-btn
+                                                    :variant="selectedThumbnail == index ? 'outlined' : null"
+                                                    height="auto"
+                                                    width="50"
+                                                    :active="selectedThumbnail == index"
+                                                    @click="selectedThumbnail = index"
+                                                    class="py-1"
+                                                >
+                                                    <v-img :src="thumbnail.file_url" width="50" height="auto"></v-img>
+                                                </v-btn>
+                                            </v-col>
+                                        </v-row>
+                                    </v-card-text>
+                                </v-card>
                             </v-sheet>
                         </v-col>
                         <v-col cols="12" sm="6" md="4">
@@ -47,9 +53,17 @@
                                 <v-select
                                     v-model="quantity"
                                     label="Please select"
-                                    :items="[1, 2]"
+                                    :items="quantityItems"
                                     variant="outlined"
-                                ></v-select>
+                                >
+                                    <template v-slot:append-item>
+                                        <v-divider></v-divider>
+
+                                        <v-list-item>
+                                            <v-text-field v-model="quantity" label="Input custom quantity" variant="outlined" class="ma-3"></v-text-field>
+                                        </v-list-item>
+                                    </template>
+                                </v-select>
                             </v-sheet>
                             <v-sheet class="my-5">
                                 <v-btn
@@ -60,17 +74,8 @@
                                     prepend-icon="mdi-cart-check"
                                     elevation="2"
                                     class="bg-red-lighten-1"
-                                ></v-btn>
-                            </v-sheet>
-                            <v-sheet class="my-5">
-                                <v-btn
-                                    width="400"
-                                    size="large"
-                                    color="white" 
-                                    text="Buy now"
-                                    prepend-icon="mdi-basket-unfill"
-                                    elevation="2"
-                                    class="bg-grey-darken-3"
+                                    :loading="cartStore.addingCart"
+                                    @click="addCart()"
                                 ></v-btn>
                             </v-sheet>
                         </v-col>
@@ -83,6 +88,11 @@
 
 <script setup>
 const route = useRoute();
+
+import { useCartStore } from '@/store/cart';
+
+const cartStore = useCartStore();
+const { isAuthenticated, user } = useSanctumAuth();
 
 const breadcrumbItems = ref([
 {
@@ -139,6 +149,27 @@ const fetchManualDetails = async () => {
 }
 
 fetchManualDetails();
+
+const quantityItems = [1,2,3,4,5,6,7,8,9,10];
+
+const addCart = async() => {
+    try {
+        cartStore.setNewAddedCart(false);
+
+        await cartStore.addToCart({
+            userId: isAuthenticated.value ? user.value.id : null,
+            guestId: isAuthenticated.value ? null : localStorage.getItem('guestId'),
+            manualId: manualDetails.value.id,
+            price: parseInt(manualDetails.value.price) * parseInt(quantity.value),
+            quantity: quantity.value
+        });
+
+        await cartStore.fetchCartItems();
+        cartStore.setNewAddedCart(true);
+    } catch (error) {
+        console.error(error);
+    }
+}
 
 </script>
 

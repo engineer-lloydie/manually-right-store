@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-sheet>
-            <form @submit.prevent="register">
+            <form @submit.prevent="continueAsGuest">
                 <v-text-field
                     v-model="first_name.value.value"
                     :error-messages="first_name.errorMessage.value"
@@ -25,34 +25,14 @@
                     clearable
                     label="Email Address"
                 ></v-text-field>
-                
-                <v-text-field
-                    v-model="password.value.value"
-                    :error-messages="password.errorMessage.value"
-                    :append-inner-icon="passwordVisible ? 'mdi-eye-off' : 'mdi-eye'"
-                    :type="passwordVisible ? 'text' : 'password'"
-                    variant="outlined"
-                    clearable
-                    label="Password"
-                    @click:append-inner="passwordVisible = !passwordVisible"
-                ></v-text-field>
-
-                <v-alert
-                    v-if="errorMessage"
-                    density="compact"
-                    :text="errorMessage"
-                    type="error"
-                    closable
-                ></v-alert>
             
                 <v-btn
                     class="mt-2"
                     type="submit"
                     color="red-lighten-1"
                     block
-                    :loading="processing"
                 >
-                    Register
+                    Checkout As Guest
                 </v-btn>
             </form>
         </v-sheet>
@@ -61,7 +41,7 @@
 
 <script setup>
 import { useField, useForm } from 'vee-validate'
-const { $hideModal, $login } = useNuxtApp()
+import { useAuthStore } from '@/store/auth';
 
 const { handleSubmit } = useForm({
     validationSchema: {
@@ -79,11 +59,6 @@ const { handleSubmit } = useForm({
             if (/^[a-z.-]+@[a-z.-]+\.[a-z]+$/i.test(value)) return true
 
             return 'Must be a valid e-mail.'
-        },
-        password (value) {
-            if (value?.length >= 8) return true
-
-            return 'Password needs to be at least 8 characters.'
         }
     },
 })
@@ -91,31 +66,14 @@ const { handleSubmit } = useForm({
 const first_name = useField('first_name');
 const last_name = useField('last_name');
 const email_address = useField('email_address');
-const password = useField('password');
-const processing = ref(false);
-const errorMessage = ref(null);
 
-const passwordVisible = ref(false);
+const authStore = useAuthStore();
+const { $hideModal } = useNuxtApp();
 
-const register = handleSubmit(async (values) => {
-    try {
-        processing.value = true;
-        errorMessage.value = null;
-        await useBaseFetch('/register', {
-            method: 'POST',
-            body: values
-        });
-
-        await $login({
-            email_address: values.email_address,
-            password: values.password
-        });
-    } catch (error) {
-        errorMessage.value = error?.response?._data?.message ?? (error?.message ?? 'Unknown error occured. Please try again with a different email address.')
-        console.error(error);
-    } finally {
-        processing.value = false;
-    }
+const continueAsGuest = handleSubmit(async (values) => {
+    authStore.setGuestCredentials(values);
+    $hideModal();
+    navigateTo('/checkout');
 })
 </script>
 

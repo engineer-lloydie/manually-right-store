@@ -45,8 +45,8 @@
 
 <script setup>
 import { useField, useForm } from 'vee-validate'
-const { login } = useSanctumAuth();
-const { $hideModal } = useNuxtApp()
+
+const { $hideModal, $login } = useNuxtApp()
 const errorMessage = ref(null);
 const loading = ref(false);
 
@@ -74,8 +74,7 @@ const signin = handleSubmit(async (values) => {
     try {
         loading.value = true;
         errorMessage.value = null;
-        await login(values);
-        $hideModal();
+        await $login(values);
     } catch (error) {
         if (error?.response && error?.response?._data?.message) {
             errorMessage.value = error.response._data.message;

@@ -15,7 +15,8 @@ export default defineNuxtConfig({
     devtools: { enabled: false },
     runtimeConfig: {
         public: {
-            apiBaseUrl: process.env.BASE_URL
+            apiBaseUrl: process.env.BASE_URL,
+            paypalClientId: process.env.PAYPAL_CLIENT_ID
         }
     },
     modules: [
@@ -24,7 +25,8 @@ export default defineNuxtConfig({
         'nuxt-auth-sanctum'
     ],
     plugins: [
-        '~/plugins/modal.mjs'
+        '~/plugins/modal.mjs',
+        '~/plugins/auth.mjs'
     ],
     components: { 
         dirs: [ 
