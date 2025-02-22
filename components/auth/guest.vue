@@ -41,7 +41,6 @@
 
 <script setup>
 import { useField, useForm } from 'vee-validate'
-import { useAuthStore } from '@/store/auth';
 
 const { handleSubmit } = useForm({
     validationSchema: {
@@ -67,11 +66,10 @@ const first_name = useField('first_name');
 const last_name = useField('last_name');
 const email_address = useField('email_address');
 
-const authStore = useAuthStore();
 const { $hideModal } = useNuxtApp();
 
 const continueAsGuest = handleSubmit(async (values) => {
-    authStore.setGuestCredentials(values);
+    localStorage.setItem('checkoutInformation', JSON.stringify(values));
     $hideModal();
     navigateTo('/checkout');
 })

@@ -98,7 +98,7 @@
                                         <v-sheet v-if="cartStore.totalCount == 0">
                                             <p class="text-center">No records found</p>
                                         </v-sheet>
-                                        <v-virtual-scroll v-else height="295" item-height="50" :items="cartStore.cartItems">
+                                        <v-virtual-scroll v-else max-height="295" item-height="50" :items="cartStore.cartItems">
                                             <template v-slot:default="{ item }">
                                                 <v-list-item class="pa-0 my-5">
                                                     <template v-slot:prepend>
@@ -133,14 +133,14 @@
 
 <script setup>
 import { useCartStore } from '@/store/cart';
-import { useAuthStore } from '@/store/auth';
+import { usePaymentStore } from '@/store/payment';
 
 definePageMeta({
     layout: false,
 });
 
 const cartStore = useCartStore();
-const authStore = useAuthStore();
+const paymentStore = usePaymentStore();
 
 const { isAuthenticated, user } = useSanctumAuth();
 
@@ -154,7 +154,28 @@ const fetchCarts = async () => {
 
 fetchCarts();
 
+const checkoutInformation = ref({});
+
+const setCheckoutInformation = () => {
+    if (isAuthenticated.value) {
+        checkoutInformation.value = {
+            firstName: user.value.first_name,
+            lastName: user.value.last_name,
+            emailAddress: user.value.email_address
+        }
+    } else {
+        const checkoutCredentials = JSON.parse(localStorage.getItem('checkoutInformation'));
+
+        checkoutInformation.value = {
+            firstName: checkoutCredentials.first_name,
+            lastName: checkoutCredentials.last_name,
+            emailAddress: checkoutCredentials.email_address
+        }
+    }
+}
+
 onMounted(async () => {
+    setCheckoutInformation();
     const { loadPayPal } = usePayPal();
     await loadPayPal();
 
@@ -165,7 +186,7 @@ onMounted(async () => {
                     const response = await useBaseFetch('/create-order', {
                         method: 'post',
                         body: {
-                            totalPrice: cartStore.totalPrice
+                            cartIds: cartStore.cartItems.map(cart => cart.id)
                         }
                     });
 
@@ -176,12 +197,32 @@ onMounted(async () => {
             },
             async onApprove(data, actions) {
                 try {
-                    const response = await useBaseFetch('/capture-order', {
+                    const { transactionId } = await useBaseFetch('/capture-order', {
                         method: 'post',
                         body: { orderID: data.orderID }
                     });
+                    
+                    const { orderNumber } = await useBaseFetch('/complete-order', {
+                        method: 'post',
+                        body: {
+                            cartIds: cartStore.cartItems.map(cart => cart.id),
+                            transactionId: transactionId,
+                            userId: user?.value.id ?? null,
+                            guestId: user ? null : localStorage.getItem('guestId')
+                        }
+                    });
+
+                    paymentStore.setTransactionDetails({
+                        transactionId: transactionId,
+                        totalPrice: cartStore.totalPrice,
+                        orderNumber: orderNumber
+                    });
+
+                    navigateTo('/payment-success');
+
+                    return;
                 } catch (error) {
-                    console.error('onApprove', response);
+                    console.error('onApprove', error);
                 }
             },
             onError(err) {
@@ -193,21 +234,6 @@ onMounted(async () => {
     }
 });
 
-const checkoutInformation = ref({});
-
-if (isAuthenticated.value) {
-    checkoutInformation.value = {
-        firstName: user.value.first_name,
-        lastName: user.value.last_name,
-        emailAddress: user.value.email_address
-    }
-} else {
-    checkoutInformation.value = {
-        firstName: authStore.guestCheckoutCredentials.first_name,
-        lastName: authStore.guestCheckoutCredentials.last_name,
-        emailAddress: authStore.guestCheckoutCredentials.email_address
-    }
-}
 </script>
 
 <style lang="scss" scoped>

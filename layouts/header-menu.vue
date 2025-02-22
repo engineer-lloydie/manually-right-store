@@ -31,6 +31,7 @@
                             <v-divider vertical inset></v-divider>
 
                             <v-btn
+                                v-if="!isAuthenticated"
                                 color="grey-darken-1"
                                 class="text-none mx-2"
                                 density="compact"
@@ -38,10 +39,35 @@
                                 rounded="circle"
                                 variant="text"
                                 stacked
-                                @click="handleDialog()"
+                                @click="$showModal('auth-modal')"
                             >
-                                <v-icon>{{ isAuthenticated ? 'mdi-logout' : 'mdi-account' }}</v-icon>
+                                <v-icon>mdi-account</v-icon>
                             </v-btn>
+                            <v-menu v-else>
+                                <template v-slot:activator="{ props }">
+                                    <v-btn
+                                        color="grey-darken-1"
+                                        class="text-none mx-2"
+                                        density="compact"
+                                        size="40"
+                                        rounded="circle"
+                                        variant="text"
+                                        v-bind="props"
+                                        stacked
+                                    >
+                                        <v-icon>mdi-account</v-icon>
+                                    </v-btn>
+                                </template>
+                                <v-list>
+                                    <v-list-item value="orders">
+                                        <v-list-item-title @click="navigateTo('/orders')">View Orders</v-list-item-title>
+                                    </v-list-item>
+                                    <v-divider></v-divider>
+                                    <v-list-item value="logout">
+                                        <v-list-item-title color="red-lighten-1" @click="logoutDialog = true;">Logout</v-list-item-title>
+                                    </v-list-item>
+                                </v-list>
+                            </v-menu>
                         </div>
                     </v-col>
                 </v-row>
@@ -83,14 +109,6 @@ const search = () => {
     searching.value = true;
 };
 const logoutDialog = ref(false);
-
-const handleDialog = () => {
-    if (isAuthenticated.value) {
-        logoutDialog.value = true;
-    } else {
-        $showModal('auth-modal');
-    }
-}
 
 const logoutUser = (async () => {
     try {
