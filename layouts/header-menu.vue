@@ -30,20 +30,7 @@
 
                             <v-divider vertical inset></v-divider>
 
-                            <v-btn
-                                v-if="!isAuthenticated"
-                                color="grey-darken-1"
-                                class="text-none mx-2"
-                                density="compact"
-                                size="40"
-                                rounded="circle"
-                                variant="text"
-                                stacked
-                                @click="$showModal('auth-modal')"
-                            >
-                                <v-icon>mdi-account</v-icon>
-                            </v-btn>
-                            <v-menu v-else>
+                            <v-menu>
                                 <template v-slot:activator="{ props }">
                                     <v-btn
                                         color="grey-darken-1"
@@ -60,11 +47,11 @@
                                 </template>
                                 <v-list>
                                     <v-list-item value="orders">
-                                        <v-list-item-title @click="navigateTo('/orders')">View Orders</v-list-item-title>
+                                        <v-list-item-title @click="navigateTo('/orders')">{{ isAuthenticated ? 'View Orders' : 'View Guest Orders' }}</v-list-item-title>
                                     </v-list-item>
                                     <v-divider></v-divider>
                                     <v-list-item value="logout">
-                                        <v-list-item-title color="red-lighten-1" @click="logoutDialog = true;">Logout</v-list-item-title>
+                                        <v-list-item-title color="red-lighten-1" @click="handleDialog()">{{ isAuthenticated ? 'Logout' : 'SignIn' }}</v-list-item-title>
                                     </v-list-item>
                                 </v-list>
                             </v-menu>
@@ -109,6 +96,14 @@ const search = () => {
     searching.value = true;
 };
 const logoutDialog = ref(false);
+
+const handleDialog = () => {
+    if (isAuthenticated.value) {
+        logoutDialog.value = true;
+    } else {
+        $showModal('auth-modal');
+    }
+}
 
 const logoutUser = (async () => {
     try {

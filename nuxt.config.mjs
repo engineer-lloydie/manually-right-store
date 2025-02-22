@@ -63,7 +63,8 @@ export default defineNuxtConfig({
             logout: '/api/logout'
         },
         redirect: {
-            onLogin: false
+            onLogin: false,
+            onLogout: false
         }
     },
 })

@@ -49,10 +49,20 @@
 </template>
 
 <script setup>
+import { useOrderStore } from '@/store/order';
+import { storeToRefs } from 'pinia'
+
 const ordersLists = ref([]);
 const fetching = ref(false);
 const isDownloading = ref(false);
 const { isAuthenticated, user } = useSanctumAuth();
+const orderStore = useOrderStore();
+
+const { guestOrderMasterIds } = storeToRefs(orderStore);
+
+watch(guestOrderMasterIds, () => {
+    getOrderLists({page: 1, itemsPerPage: itemsPerPage.value})
+})
 
 // For table setup
 const headers = ref([
@@ -77,6 +87,7 @@ const getOrderLists = async ({ page, itemsPerPage, sortBy }) => {
             params: {
                 userId: isAuthenticated.value ? user.value.id : null,
                 guestId: isAuthenticated.value ? null : localStorage.getItem('guestId'),
+                orderMasterIds: orderStore.guestOrderMasterIds ? JSON.stringify(orderStore.guestOrderMasterIds) : null,
                 page,
                 itemsPerPage,
                 sortBy

@@ -30,7 +30,7 @@
                                 <v-sheet>
                                     <h3>Checkout Information</h3>
                                 </v-sheet>
-                                <v-list lines="two">
+                                <v-list lines="two" v-if="checkoutInformation">
                                     <v-list-item title="First Name:" disabled>
                                         <h4>{{ checkoutInformation.firstName }}</h4>
                                     </v-list-item>
@@ -91,10 +91,7 @@
                                     <v-sheet class="mb-5">
                                         <h3>Item Summary</h3>
                                     </v-sheet>
-                                    <v-sheet class="d-flex justify-center ma-16" v-if="cartStore.fetchingCarts">
-                                        <v-progress-circular color="red-lighten-1" indeterminate></v-progress-circular>
-                                    </v-sheet>
-                                    <v-sheet v-else>
+                                    <v-sheet>
                                         <v-sheet v-if="cartStore.totalCount == 0">
                                             <p class="text-center">No records found</p>
                                         </v-sheet>
@@ -207,8 +204,11 @@ onMounted(async () => {
                         body: {
                             cartIds: cartStore.cartItems.map(cart => cart.id),
                             transactionId: transactionId,
-                            userId: user?.value.id ?? null,
-                            guestId: user ? null : localStorage.getItem('guestId')
+                            userId: isAuthenticated.value ? user.value.id : null,
+                            guestId: isAuthenticated.value ? null : localStorage.getItem('guestId'),
+                            firstName: checkoutInformation.value.firstName,
+                            lastName: checkoutInformation.value.lastName,
+                            emailAddress: checkoutInformation.value.emailAddress,
                         }
                     });
 

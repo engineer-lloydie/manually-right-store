@@ -8,9 +8,11 @@
         </v-sheet>
 
         <v-sheet class="d-flex flex-column align-center mt-10">
-            <p class="my-2">Order Number: {{ paymentStore.orderTransactionDetails.orderNumber}}</p>
-            <p class="my-2">Transaction ID: {{ paymentStore.orderTransactionDetails.transactionId}}</p>
-            <p class="my-2">Total Amount Paid: ${{ paymentStore.orderTransactionDetails.totalPrice}}.00</p>
+            <p class="my-2">Order Number: {{ paymentStore.orderTransactionDetails.orderNumber }}</p>
+            <p class="my-2">Transaction ID: {{ paymentStore.orderTransactionDetails.transactionId }}</p>
+            <p class="my-2">Total Amount Paid: ${{ paymentStore.orderTransactionDetails.totalPrice }}.00</p>
+
+            <v-btn color="primary" @click="copyToClipboard">Copy</v-btn>
         </v-sheet>
 
         <v-divider class="ma-10" inset></v-divider>
@@ -20,7 +22,7 @@
         </v-sheet>
 
         <v-sheet class="d-flex justify-center">
-            <v-btn to="/" color="red-lighten-1">Back to home</v-btn>
+            <v-btn to="/orders" color="red-lighten-1">Go to orders</v-btn>
         </v-sheet>
     </v-container>
 </template>
@@ -37,6 +39,20 @@ const paymentStore = usePaymentStore();
 if (!paymentStore.orderTransactionDetails) {
     navigateTo('/');
 }
+
+const copyToClipboard = async () => {
+  const clipboardText = `Order Number: ${paymentStore.orderTransactionDetails.orderNumber}
+    Transaction ID: ${paymentStore.orderTransactionDetails.transactionId}
+    Total Amount Paid: $${paymentStore.orderTransactionDetails.totalPrice}.00`;
+
+  try {
+    await navigator.clipboard.writeText(clipboardText);
+    alert('Copied to clipboard!');
+  } catch (err) {
+    console.error('Failed to copy:', err);
+  }
+};
+
 </script>
 
 <style lang="scss" scoped>

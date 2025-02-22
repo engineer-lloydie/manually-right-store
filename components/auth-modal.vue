@@ -18,6 +18,9 @@
                 <v-sheet v-if="modalStore.fromCheckout && authForm != 'guest'" class="mt-5 text-center">
                     <v-btn @click="switchAuthForm('guest')" color="red-lighten-1" variant="outlined">Continue as guest</v-btn>
                 </v-sheet>
+                <v-sheet v-if="!modalStore.fromCheckout && authForm != 'order'" class="mt-5 text-center">
+                    <v-btn @click="switchAuthForm('order')" color="red-lighten-1" variant="outlined">Non-Member Order</v-btn>
+                </v-sheet>
             </v-card-text>
             <template v-slot:append>
                 <v-btn
@@ -35,6 +38,7 @@
 import AuthLogin from '~/components/auth/login.vue';
 import AuthRegister from '~/components/auth/register.vue';
 import AuthGuest from '~/components/auth/guest.vue';
+import NonMemberOrder from '~/components/auth/order.vue';
 import { useModalStore } from '@/store/modal';
 
 const props = defineProps({
@@ -66,10 +70,18 @@ const cardProperties = computed(() => {
                 bottomTextUrl: 'Login here.'
             }
     
-        default:
+        case 'guest':
             return {
                 redirectFlag: 'login',
                 cardTitle: 'Continue As Guest',
+                bottomText: 'Already a member?',
+                bottomTextUrl: 'Login here.'
+            };
+
+        default: 
+            return {
+                redirectFlag: 'login',
+                cardTitle: 'View Order as Non-Member',
                 bottomText: 'Already a member?',
                 bottomTextUrl: 'Login here.'
             };
@@ -87,8 +99,11 @@ const currentComponent = computed(() => {
         case 'register':
             return AuthRegister;
     
+        case 'guest':
+            return AuthGuest
+
         default:
-            return AuthGuest;
+            return NonMemberOrder;
     }
 });
 
