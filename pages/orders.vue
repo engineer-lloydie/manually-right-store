@@ -28,7 +28,7 @@
                             <th>Download Previlige</th>
                             <th>Actions</th>
                         </tr>
-                        <tr class="bg-grey-lighten-2" v-for="cart in item.carts" :key="cart.id">
+                        <tr class="bg-grey-lighten-2" v-for="(cart, index) in item.carts" :key="cart.id">
                             <td>{{ cart.manual.title }}</td>
                             <td>{{ cart.price }}</td>
                             <td>{{ cart.quantity }}</td>
@@ -36,7 +36,7 @@
                             <td>
                                 <v-tooltip text="Download Manual Files">
                                     <template v-slot:activator="{ props }">
-                                        <v-btn @click="downloadFiles(item, cart)" :loading="isDownloading" :disabled="item.order_details.download_count == 0" variant="text" icon="mdi-file-download" v-bind="props"></v-btn>
+                                        <v-btn @click="downloadFiles(item, cart, index)" :loading="isDownloading && selectedIndex == index" :disabled="item.order_details.download_count == 0" variant="text" icon="mdi-file-download" v-bind="props"></v-btn>
                                     </template>
                                 </v-tooltip>
                             </td>
@@ -103,8 +103,11 @@ const getOrderLists = async ({ page, itemsPerPage, sortBy }) => {
     }
 }
 
-const downloadFiles = async (item, cart) => {
+const selectedIndex = ref(null);
+
+const downloadFiles = async (item, cart, index) => {
     isDownloading.value = true;
+    selectedIndex.value = index;
     try {
         const response = await useBaseFetch('/download-files', {
             method: 'POST',
