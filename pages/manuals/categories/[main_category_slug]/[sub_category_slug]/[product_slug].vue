@@ -56,13 +56,13 @@
                                     :items="quantityItems"
                                     variant="outlined"
                                 >
-                                    <template v-slot:append-item>
+                                    <!-- <template v-slot:append-item>
                                         <v-divider></v-divider>
 
                                         <v-list-item>
                                             <v-text-field v-model="quantity" label="Input custom quantity" variant="outlined" class="ma-3"></v-text-field>
                                         </v-list-item>
-                                    </template>
+                                    </template> -->
                                 </v-select>
                             </v-sheet>
                             <v-sheet class="my-5">
@@ -94,6 +94,8 @@ import { useCartStore } from '@/store/cart';
 const cartStore = useCartStore();
 const { isAuthenticated, user } = useSanctumAuth();
 
+const { $deslugify } = useNuxtApp();
+
 const breadcrumbItems = ref([
 {
         title: "Home",
@@ -106,17 +108,17 @@ const breadcrumbItems = ref([
         to: "/manuals/categories"
     },
     {
-        title: `${route.params.main_category_slug}`,
+        title: `${$deslugify(route.params.main_category_slug)}`,
         disabled: false,
         to: `/manuals/categories/${route.params.main_category_slug}`
     },
     {
-        title: `${route.params.sub_category_slug}`,
+        title: `${$deslugify(route.params.sub_category_slug)}`,
         disabled: false,
         to: `/manuals/categories/${route.params.main_category_slug}/${route.params.sub_category_slug}`
     },
     {
-        title: `${route.params.product_slug}`,
+        title: `${$deslugify(route.params.product_slug)}`,
         disabled: true
     }
 ]);
@@ -150,7 +152,7 @@ const fetchManualDetails = async () => {
 
 fetchManualDetails();
 
-const quantityItems = [1,2,3,4,5,6,7,8,9,10];
+const quantityItems = [1];
 
 const addCart = async() => {
     try {

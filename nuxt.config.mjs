@@ -17,7 +17,8 @@ export default defineNuxtConfig({
     ],
     plugins: [
         '~/plugins/modal.mjs',
-        '~/plugins/auth.mjs'
+        '~/plugins/auth.mjs',
+        '~/plugins/url-slug.mjs'
     ],
     components: { 
         dirs: [ 

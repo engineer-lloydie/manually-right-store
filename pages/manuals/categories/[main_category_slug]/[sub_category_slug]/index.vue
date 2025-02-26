@@ -84,6 +84,7 @@ import { useCartStore } from '@/store/cart';
 const { isAuthenticated, user } = useSanctumAuth();
 const route = useRoute();
 const cartStore = useCartStore();
+const { $deslugify } = useNuxtApp();
 
 const breadcrumbItems = ref([
     {
@@ -97,12 +98,12 @@ const breadcrumbItems = ref([
         to: "/manuals/categories"
     },
     {
-        title: `${route.params.main_category_slug}`,
+        title: `${$deslugify(route.params.main_category_slug)}`,
         disabled: false,
         to: `/manuals/categories/${route.params.main_category_slug}`
     },
     {
-        title: `${route.params.sub_category_slug}`,
+        title: `${$deslugify(route.params.sub_category_slug)}`,
         disabled: true
     }
 ]);

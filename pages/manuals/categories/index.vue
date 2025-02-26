@@ -12,21 +12,18 @@
                         <p class="text-center ma-16">No records found.</p>
                     </template>
                     <template v-else>
-                        <v-list density="compact">
-                            <v-list-item
-                                v-for="(item, i) in mainCategories"
-                                :key="i"
-                                :value="item"
-                                :to="`/manuals/categories/${item.url_slug}`"
-                                color="red-lighten-1"
-                            >
-                                <template v-slot:prepend>
-                                    <v-icon icon="mdi-folder-file-outline" color="red-lighten-1"></v-icon>
-                                </template>
-
-                                <v-list-item-title>{{ item.name }}</v-list-item-title>
-                            </v-list-item>
-                        </v-list>
+                        <v-row>
+                            <v-col v-for="(item, i) in mainCategories" :key="i" cols="12" md="6" lg="4">
+                                <v-btn
+                                    block
+                                    variant="text" 
+                                    :to="`/manuals/categories/${item.url_slug}`"
+                                    class="d-flex justify-start align-center custom-transform-class text-none"
+                                >
+                                    <v-icon class="me-5" color="red-lighten-1">mdi-folder-file-outline</v-icon> {{ item.name }}
+                                </v-btn>
+                            </v-col>
+                        </v-row>
                     </template>
                 </template>
             </v-card-text>
