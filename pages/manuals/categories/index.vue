@@ -32,6 +32,10 @@
 </template>
 
 <script setup>
+definePageMeta({
+    title: 'Main Categories'
+})
+
 const breadcrumbItems = ref([
     {
         title: "Home",

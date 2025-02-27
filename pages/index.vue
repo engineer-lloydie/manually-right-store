@@ -13,6 +13,10 @@
 </template>
 
 <script setup>
+definePageMeta({
+    title: 'Home Page'
+})
+
 const bestSelling = ref([]);
 const latestProducts = ref([]);
 const fetchingBestSelling = ref(false);

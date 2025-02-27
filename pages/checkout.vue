@@ -55,6 +55,12 @@
                                     <h3>Payment</h3>
                                 </v-sheet>
                                 <v-sheet class="mt-6">
+                                    <div v-if="loadingPayPayButton" class="d-flex align-center justify-center fill-height">
+                                        <v-progress-circular
+                                            color="grey-lighten-4"
+                                            indeterminate
+                                        ></v-progress-circular>
+                                    </div>
                                     <div id="paypal-button-container"></div>
                                 </v-sheet>
                             </v-card-item>
@@ -101,9 +107,20 @@
                                                     <template v-slot:prepend>
                                                         <v-img 
                                                             :src="item.thumbnail"
+                                                            lazy-src="~/assets/images/image-icon.png"
                                                             width="50"
                                                             height="50"
-                                                        />
+                                                            rounded
+                                                        >
+                                                            <template v-slot:placeholder>
+                                                                <div class="d-flex align-center justify-center fill-height">
+                                                                    <v-progress-circular
+                                                                        color="grey-lighten-4"
+                                                                        indeterminate
+                                                                    ></v-progress-circular>
+                                                                </div>
+                                                            </template>
+                                                        </v-img>
                                                     </template>
 
                                                     <v-sheet class="ms-5">
@@ -133,11 +150,14 @@ import { useCartStore } from '@/store/cart';
 import { usePaymentStore } from '@/store/payment';
 
 definePageMeta({
-    layout: false,
+    title: 'Checkout',
+    layout: false
 });
 
 const cartStore = useCartStore();
 const paymentStore = usePaymentStore();
+
+const loadingPayPayButton = ref(true);
 
 const { isAuthenticated, user } = useSanctumAuth();
 
@@ -148,8 +168,6 @@ const fetchCarts = async () => {
         navigateTo('/');
     }
 }
-
-fetchCarts();
 
 const checkoutInformation = ref({});
 
@@ -172,10 +190,12 @@ const setCheckoutInformation = () => {
 }
 
 onMounted(async () => {
+    fetchCarts();
     setCheckoutInformation();
+    loadingPayPayButton.value = true;
     const { loadPayPal } = usePayPal();
     await loadPayPal();
-
+    loadingPayPayButton.value = false;
     if (window.paypal) {
         window.paypal.Buttons({
             createOrder: async () => {

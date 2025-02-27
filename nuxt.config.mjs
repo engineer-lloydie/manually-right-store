@@ -4,6 +4,12 @@ import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
 export default defineNuxtConfig({
     compatibilityDate: '2024-11-11',
     devtools: { enabled: false },
+    app: {
+        head: {
+            charset: 'utf-8',
+            viewport: 'width=device-width, initial-scale=1',
+        }
+    },
     runtimeConfig: {
         public: {
             apiBaseUrl: process.env.BASE_URL,
@@ -11,9 +17,10 @@ export default defineNuxtConfig({
         }
     },
     modules: [
-        '@pinia/nuxt',
-        '@vee-validate/nuxt',
-        'nuxt-auth-sanctum'
+      '@pinia/nuxt',
+      '@vee-validate/nuxt',
+      'nuxt-auth-sanctum',
+      '@nuxtjs/device',
     ],
     plugins: [
         '~/plugins/modal.mjs',

@@ -1,10 +1,11 @@
 <template>
-    <v-dialog v-model="props.active" width="auto" persistent :mobile="false">
+    <v-dialog v-model="props.active" persistent :mobile="true" max-width="600">
         <v-card
-            width="600"
+            width="auto"
+            max-width="600"
         >
             <v-card-title>
-                <h3 class="text-center font-weight-regular">{{ cardProperties.cardTitle }}</h3>
+                <h3 class="text-center font-weight-regular text-wrap">{{ cardProperties.cardTitle }}</h3>
             </v-card-title>
             <v-card-text>
                 <component :is="currentComponent"></component>

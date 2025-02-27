@@ -34,6 +34,11 @@
 <script setup>
 const route = useRoute();
 const { $deslugify } = useNuxtApp();
+
+definePageMeta({
+    flag: 'main_category_slug'
+});
+
 const breadcrumbItems = ref([
     {
         title: "Home",

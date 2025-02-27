@@ -25,14 +25,25 @@
                         <v-card
                             class="ma-4"
                             max-width="400"
+                            width="100%"
                         >
                             <v-img
-                                class="align-end text-white"
+                                class="align-end text-white ma-4"
                                 height="320"
                                 alt="Manual Thumbnail"
                                 :src="item.thumbnail"
+                                lazy-src="~/assets/images/pdf-icon.png"
+                                rounded
                                 cover
                             >
+                                <template v-slot:placeholder>
+                                    <div class="d-flex align-center justify-center fill-height">
+                                        <v-progress-circular
+                                            color="grey-lighten-4"
+                                            indeterminate
+                                        ></v-progress-circular>
+                                    </div>
+                                </template>
                             </v-img>
 
                             <v-card-title>{{ item.title }}</v-card-title>
@@ -45,7 +56,7 @@
                                 <div>{{ item.description }}</div>
                             </v-card-text>
 
-                            <v-card-actions class="d-flex justify-end">
+                            <v-card-actions class="d-flex justify-end flex-column flex-sm-row">
                                 <v-btn
                                     :to="`/manuals/categories/${route.params.main_category_slug}/${route.params.sub_category_slug}/${item.url_slug}`"
                                     color="white" 
@@ -80,12 +91,17 @@
 </template>
 
 <script setup>
+const route = useRoute();
+const { $deslugify } = useNuxtApp();
+
+definePageMeta({
+    flag: 'sub_category_slug'
+});
+
 import { useCartStore } from '@/store/cart';
 
 const { isAuthenticated, user } = useSanctumAuth();
-const route = useRoute();
-const cartStore = useCartStore();
-const { $deslugify } = useNuxtApp();
+const cartStore = useCartStore()
 
 const breadcrumbItems = ref([
     {

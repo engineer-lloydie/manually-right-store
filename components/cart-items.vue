@@ -39,21 +39,32 @@
                         <template v-if="cartStore.cartItems.length">
                             <v-sheet class="mb-5">
                                 <v-row v-for="(item, index) in cartStore.cartItems" :key="item.id" align="center">
-                                    <v-col cols="12" sm="3" md="3" lg="3" xl="3">
+                                    <v-col class="d-flex justify-between d-sm-inline" cols="12" sm="3">
                                         <v-img 
                                             :src="item.thumbnail"
+                                            lazy-src="~/assets/images/image-icon.png"
                                             width="70"
                                             height="70"
-                                        />
+                                            rounded
+                                        >
+                                            <template v-slot:placeholder>
+                                                <div class="d-flex align-center justify-center fill-height">
+                                                    <v-progress-circular
+                                                        color="grey-lighten-4"
+                                                        indeterminate
+                                                    ></v-progress-circular>
+                                                </div>
+                                            </template>
+                                        </v-img>
                                     </v-col>
-                                    <v-col cols="12" sm="5" md="5" lg="5" xl="5">
+                                    <v-col class="text-center text-sm-left" cols="12" sm="5">
                                         <h5 class="mb-1">{{ item.title }}</h5>
                                         <h5 class="font-weight-regular">Quantity: {{ item.quantity }}</h5>
                                     </v-col>
-                                    <v-col cols="12" sm="2" md="2" lg="2" xl="2">
+                                    <v-col cols="12" sm="2">
                                         <h4 class="price-text-color text-center">${{ item.price }}.00</h4>
                                     </v-col>
-                                    <v-col cols="12" sm="2" md="2" lg="2" xl="2" class="text-center">
+                                    <v-col cols="12" sm="2" class="text-center">
                                         <v-btn :loading="processing && selectedCart == item.id" icon="mdi-delete" size="30" color="red-lighten-1" variant="text" @click="deleteCart(item.id)"></v-btn>
                                     </v-col>
                                     <v-divider v-if="(index + 1) != cartStore.cartItems.length"></v-divider>

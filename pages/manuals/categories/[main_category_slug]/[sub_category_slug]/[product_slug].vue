@@ -10,7 +10,23 @@
                     </v-sheet>
                     <v-row v-else>
                         <v-col cols="12" sm="6" md="4" class="d-flex align-center flex-column flex-wrap">
-                            <v-img :src="manualDetails.thumbnails[selectedThumbnail]?.file_url" width="300" height="300" cover></v-img>
+                            <v-img
+                                :src="manualDetails.thumbnails[selectedThumbnail]?.file_url"
+                                lazy-src="~/assets/images/pdf-icon.png"
+                                width="300" 
+                                height="300"
+                                rounded
+                                cover
+                            >
+                                <template v-slot:placeholder>
+                                    <div class="d-flex align-center justify-center fill-height">
+                                        <v-progress-circular
+                                            color="grey-lighten-4"
+                                            indeterminate
+                                        ></v-progress-circular>
+                                    </div>
+                                </template>
+                            </v-img>
                             
                             <v-sheet height="30"></v-sheet>
 
@@ -27,7 +43,21 @@
                                                     @click="selectedThumbnail = index"
                                                     class="py-1"
                                                 >
-                                                    <v-img :src="thumbnail.file_url" width="50" height="auto"></v-img>
+                                                    <v-img
+                                                        lazy-src="~/assets/images/image-icon.png"
+                                                        :src="thumbnail.file_url" 
+                                                        width="50" 
+                                                        height="auto"
+                                                    >
+                                                        <template v-slot:placeholder>
+                                                            <div class="d-flex align-center justify-center fill-height">
+                                                                <v-progress-circular
+                                                                    color="grey-lighten-4"
+                                                                    indeterminate
+                                                                ></v-progress-circular>
+                                                            </div>
+                                                        </template>
+                                                    </v-img>
                                                 </v-btn>
                                             </v-col>
                                         </v-row>
@@ -88,13 +118,16 @@
 
 <script setup>
 const route = useRoute();
+const { $deslugify } = useNuxtApp();
+
+definePageMeta({
+    flag: 'product_slug'
+});
 
 import { useCartStore } from '@/store/cart';
 
 const cartStore = useCartStore();
 const { isAuthenticated, user } = useSanctumAuth();
-
-const { $deslugify } = useNuxtApp();
 
 const breadcrumbItems = ref([
 {

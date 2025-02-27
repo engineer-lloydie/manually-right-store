@@ -52,6 +52,10 @@
 import { useOrderStore } from '@/store/order';
 import { storeToRefs } from 'pinia'
 
+definePageMeta({
+    title: 'Orders'
+})
+
 const ordersLists = ref([]);
 const fetching = ref(false);
 const isDownloading = ref(false);
