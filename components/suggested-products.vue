@@ -31,6 +31,7 @@
                                     class="align-end text-white"
                                     height="320"
                                     :src="item.thumbnails[0].url"
+                                    cover
                                 >
                                 </v-img>
         

@@ -31,6 +31,7 @@
                                 height="320"
                                 alt="Manual Thumbnail"
                                 :src="item.thumbnail"
+                                cover
                             >
                             </v-img>
 

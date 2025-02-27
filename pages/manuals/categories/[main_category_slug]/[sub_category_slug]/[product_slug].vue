@@ -10,7 +10,7 @@
                     </v-sheet>
                     <v-row v-else>
                         <v-col cols="12" sm="6" md="4" class="d-flex align-center flex-column flex-wrap">
-                            <v-img :src="manualDetails.thumbnails[selectedThumbnail]?.file_url" width="300" height="300"></v-img>
+                            <v-img :src="manualDetails.thumbnails[selectedThumbnail]?.file_url" width="300" height="300" cover></v-img>
                             
                             <v-sheet height="30"></v-sheet>
 
