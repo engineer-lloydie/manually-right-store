@@ -55,7 +55,8 @@ const { handleSubmit } = useForm({
             return 'Last name is required.'
         },
         email_address (value) {
-            if (/^[a-z.-]+@[a-z.-]+\.[a-z]+$/i.test(value)) return true
+            const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (emailRegex.test(value)) return true
 
             return 'Must be a valid e-mail.'
         }
