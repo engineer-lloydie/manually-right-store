@@ -10,7 +10,7 @@
         <v-sheet class="d-flex flex-column align-center mt-10">
             <p class="my-2">Order Number: {{ paymentStore.orderTransactionDetails.orderNumber }}</p>
             <p class="my-2">Transaction ID: {{ paymentStore.orderTransactionDetails.transactionId }}</p>
-            <p class="my-2">Total Amount Paid: ${{ paymentStore.orderTransactionDetails.totalPrice }}.00</p>
+            <p class="my-2">Total Amount Paid: ${{ paymentStore.orderTransactionDetails.totalPrice }}</p>
 
             <v-btn color="primary" @click="copyToClipboard">Copy</v-btn>
         </v-sheet>
@@ -43,7 +43,7 @@ if (!paymentStore.orderTransactionDetails) {
 const copyToClipboard = async () => {
   const clipboardText = `Order Number: ${paymentStore.orderTransactionDetails.orderNumber}
     Transaction ID: ${paymentStore.orderTransactionDetails.transactionId}
-    Total Amount Paid: $${paymentStore.orderTransactionDetails.totalPrice}.00`;
+    Total Amount Paid: $${paymentStore.orderTransactionDetails.totalPrice}`;
 
   try {
     await navigator.clipboard.writeText(clipboardText);

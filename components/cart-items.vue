@@ -77,7 +77,7 @@
                                             <h3>Total</h3>
                                         </v-col>
                                         <v-col cols="6" class="text-end">
-                                            <h3>${{ cartStore.totalPrice }}.00</h3>
+                                            <h3>${{ cartStore.totalPrice }}</h3>
                                         </v-col>
                                     </v-row>
                                 </div>

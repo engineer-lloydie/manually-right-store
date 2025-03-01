@@ -70,7 +70,7 @@
     
                             <v-sheet height="30"></v-sheet>
     
-                            <h3>${{ manualDetails.price }}.00</h3>
+                            <h3>${{ manualDetails.price }}</h3>
                         </v-col>
                         <v-col cols="12" sm="6" md="4">
                             <v-sheet>

@@ -85,7 +85,7 @@
                                     <v-row>
                                         <v-col class="d-flex justify-space-between">
                                             <h4 class="font-weight-regular">Total Cost</h4>
-                                            <h4 class="price-text-color text-right">${{ cartStore.totalPrice }}.00</h4>
+                                            <h4 class="price-text-color text-right">${{ cartStore.totalPrice }}</h4>
                                         </v-col>
                                     </v-row>
                                 </v-card-item>
