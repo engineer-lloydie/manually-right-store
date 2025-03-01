@@ -129,7 +129,7 @@
                                                     </v-sheet>
 
                                                     <template v-slot:append>
-                                                        <h5 class="price-text-color text-right font-weight-medium">${{ item.price }}.00</h5>
+                                                        <h5 class="price-text-color text-right font-weight-medium">${{ item.price }}</h5>
                                                     </template>
                                                 </v-list-item>
                                             </template>

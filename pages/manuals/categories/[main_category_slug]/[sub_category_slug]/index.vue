@@ -49,7 +49,7 @@
                             <v-card-title>{{ item.title }}</v-card-title>
 
                             <v-card-subtitle class="text-h6 font-weight-bold">
-                                ${{ item.price }}.00
+                                ${{ item.price }}
                             </v-card-subtitle>
 
                             <v-card-text>

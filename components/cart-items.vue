@@ -58,11 +58,11 @@
                                         </v-img>
                                     </v-col>
                                     <v-col class="text-center text-sm-left" cols="12" sm="5">
-                                        <h5 class="mb-1">{{ item.title }}</h5>
+                                        <h5 class="mb-1">{{ item.manual.title }}</h5>
                                         <h5 class="font-weight-regular">Quantity: {{ item.quantity }}</h5>
                                     </v-col>
                                     <v-col cols="12" sm="2">
-                                        <h4 class="price-text-color text-center">${{ item.price }}.00</h4>
+                                        <h4 class="price-text-color text-center">${{ item.price }}</h4>
                                     </v-col>
                                     <v-col cols="12" sm="2" class="text-center">
                                         <v-btn :loading="processing && selectedCart == item.id" icon="mdi-delete" size="30" color="red-lighten-1" variant="text" @click="deleteCart(item.id)"></v-btn>
