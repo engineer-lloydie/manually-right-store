@@ -11,7 +11,6 @@
                     :items-length="totalItems"
                     :loading="fetching"
                     item-value="order_number"
-                    show-expand
                     @update:options="getOrderLists"
                 >
                     <template v-slot:item.order_number="{ value }">
@@ -20,14 +19,60 @@
                     <template v-slot:item.payment_status="{ value }">
                         <p class="font-weight-bold text-success">{{ value.toUpperCase() }}</p>
                     </template>
+                    <template v-slot:item.download="{ item }">
+                        <v-btn variant="text" class="text-none">
+                            <v-icon>
+                                mdi-download-multiple
+                            </v-icon>
+                            All
+                        </v-btn>
+                        <v-btn
+                            variant="text" 
+                            class="text-none"
+                            :id="`download-activator-${item.id}`"
+                        >
+                            <v-icon>
+                                mdi-file-download
+                            </v-icon>
+                            Per Item
+                        </v-btn>
+                        <v-menu :activator="`#download-activator-${item.id}`" :close-on-content-click="false" max-height="300px">
+                            <v-list>
+                                <v-list-item>
+                                    <v-list-item-title>
+                                        <v-table>
+                                            <thead>
+                                                    <tr>
+                                                        <th>Name</th>
+                                                        <th>Price</th>
+                                                        <th>Download Previlige</th>
+                                                        <th>Download</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr v-for="(cart, index) in item.carts" :key="cart.id">
+                                                        <td>{{ cart.manual.title }}</td>
+                                                        <td>{{ cart.price }}</td>
+                                                        <td>{{ item.order_details.download_count }}</td>
+                                                        <td>
+                                                            <v-btn 
+                                                                @click="downloadFiles(item, cart, index)"
+                                                                :loading="isDownloading && selectedIndex == index"
+                                                                :disabled="item.order_details.download_count == 0"
+                                                                variant="text"
+                                                                icon="mdi-file-download"
+                                                            >
+                                                            </v-btn>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                        </v-table>
+                                    </v-list-item-title>
+                                </v-list-item>
+                            </v-list>
+                        </v-menu>
+                    </template>
                     <template v-slot:expanded-row="{ item }">
-                        <tr class="bg-red-lighten-2">
-                            <th>Name</th>
-                            <th>Total Price</th>
-                            <th>Quantity</th>
-                            <th>Download Previlige</th>
-                            <th>Actions</th>
-                        </tr>
                         <tr class="bg-grey-lighten-2" v-for="(cart, index) in item.carts" :key="cart.id">
                             <td>{{ cart.manual.title }}</td>
                             <td>{{ cart.price }}</td>
@@ -74,7 +119,8 @@ const headers = ref([
     { title: "Transaction ID.", key: "transaction_id", align: "end" },
     { title: "Order Date", key: "purchase_date", align: "end" },
     { title: "Total Price", key: "total_price", align: "end" },
-	{ title: "Order Status", key: "payment_status", align: "end", sortable: false }
+	{ title: "Order Status", key: "payment_status", align: "end", sortable: false },
+    { title: "Download", key: "download", align: "center", sortable: false }
 ]);
 const itemsPerPage = ref(5);
 const totalItems = ref(0);
