@@ -19,13 +19,13 @@
                     <template v-slot:item.payment_status="{ value }">
                         <p class="font-weight-bold text-success">{{ value.toUpperCase() }}</p>
                     </template>
-                    <template v-slot:item.download="{ item }">
-                        <v-btn variant="text" class="text-none">
+                    <template v-slot:item.actions="{ item }">
+                        <!-- <v-btn variant="text" class="text-none">
                             <v-icon>
                                 mdi-download-multiple
                             </v-icon>
                             All
-                        </v-btn>
+                        </v-btn> -->
                         <v-btn
                             variant="text" 
                             class="text-none"
@@ -34,14 +34,14 @@
                             <v-icon>
                                 mdi-file-download
                             </v-icon>
-                            Per Item
+                            Download Manuals
                         </v-btn>
                         <v-menu :activator="`#download-activator-${item.id}`" :close-on-content-click="false" max-height="300px">
                             <v-list>
                                 <v-list-item>
                                     <v-list-item-title>
                                         <v-table>
-                                            <thead>
+                                            <thead class="bg-grey-lighten-2">
                                                     <tr>
                                                         <th>Name</th>
                                                         <th>Price</th>
@@ -81,7 +81,13 @@
                             <td>
                                 <v-tooltip text="Download Manual Files">
                                     <template v-slot:activator="{ props }">
-                                        <v-btn @click="downloadFiles(item, cart, index)" :loading="isDownloading && selectedIndex == index" :disabled="item.order_details.download_count == 0" variant="text" icon="mdi-file-download" v-bind="props"></v-btn>
+                                        <v-btn 
+                                            @click="downloadFiles(item, cart, index)"
+                                            :loading="isDownloading && selectedIndex == index"
+                                            :disabled="item.order_details.download_count == 0"
+                                            variant="text"
+                                            icon="mdi-file-download"
+                                            v-bind="props"></v-btn>
                                     </template>
                                 </v-tooltip>
                             </td>
@@ -120,7 +126,7 @@ const headers = ref([
     { title: "Order Date", key: "purchase_date", align: "end" },
     { title: "Total Price", key: "total_price", align: "end" },
 	{ title: "Order Status", key: "payment_status", align: "end", sortable: false },
-    { title: "Download", key: "download", align: "center", sortable: false }
+    { title: "Actions", key: "actions", align: "center", sortable: false }
 ]);
 const itemsPerPage = ref(5);
 const totalItems = ref(0);
