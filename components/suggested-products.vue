@@ -6,7 +6,7 @@
         <v-sheet
             class="mx-auto"
             elevation="1"
-            max-width="1200"
+            max-width="1500"
         >
             <v-sheet class="d-flex justify-center align-center" height="400" v-if="processing">
                 <v-progress-circular color="red-lighten-1" indeterminate></v-progress-circular>
@@ -25,7 +25,7 @@
                         >
                             <v-card
                                 class="ma-4"
-                                max-width="400"
+                                max-width="350"
                                 width="100%"
                             >
                                 <v-img
@@ -63,14 +63,14 @@
                                         text="View Details"
                                         prepend-icon="mdi-text-box-search-outline"
                                         elevation="2"
-                                        class="bg-grey-darken-3"
+                                        class="bg-grey-darken-3 text-none"
                                     ></v-btn>
                                     <v-btn 
                                         color="white" 
-                                        text="Add to cart"
+                                        text="Add to Cart"
                                         prepend-icon="mdi-cart-check"
                                         elevation="2"
-                                        class="bg-red-lighten-1"
+                                        class="bg-red-lighten-1 text-none"
                                         :loading="cartStore.addingCart"
                                         @click="addCart(item)"
                                     ></v-btn>

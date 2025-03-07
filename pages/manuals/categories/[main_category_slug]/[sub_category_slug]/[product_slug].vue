@@ -100,10 +100,10 @@
                                     width="400"
                                     size="large"
                                     color="white" 
-                                    text="Add to cart"
+                                    text="Add to Cart"
                                     prepend-icon="mdi-cart-check"
                                     elevation="2"
-                                    class="bg-red-lighten-1"
+                                    class="bg-red-lighten-1 text-none"
                                     :loading="cartStore.addingCart"
                                     @click="addCart()"
                                 ></v-btn>

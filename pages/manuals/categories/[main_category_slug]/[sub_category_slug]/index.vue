@@ -15,16 +15,15 @@
                 >
                     <v-col
                         cols="12"
-                        lg="4"
                         md="6"
-                        sm="12"
+                        lg="4"
                         class="d-flex justify-sm-center"
                         v-for="item in manualItems"
                         :key="item.id"
                     >
                         <v-card
                             class="ma-4"
-                            max-width="400"
+                            max-width="350"
                             width="100%"
                         >
                             <v-img
@@ -56,23 +55,29 @@
                                 <div>{{ item.description }}</div>
                             </v-card-text>
 
-                            <v-card-actions class="d-flex justify-end flex-column flex-sm-row">
+                            <v-card-actions class="
+                                d-flex
+                                align-end
+                                justify-sm-end
+                                flex-column
+                                flex-sm-row
+                            ">
+                                <v-btn
+                                    @click="addCart(item)"
+                                    color="white" 
+                                    text="Add to Cart"
+                                    prepend-icon="mdi-cart-check"
+                                    elevation="2"
+                                    class="bg-red-lighten-1 text-none"
+                                    :loading="cartStore.addingCart"
+                                ></v-btn>
                                 <v-btn
                                     :to="`/manuals/categories/${route.params.main_category_slug}/${route.params.sub_category_slug}/${item.url_slug}`"
                                     color="white" 
                                     text="View Details"
                                     prepend-icon="mdi-text-box-search-outline"
                                     elevation="2"
-                                    class="bg-grey-darken-3"
-                                ></v-btn>
-                                <v-btn
-                                    @click="addCart(item)"
-                                    color="white" 
-                                    text="Add to cart"
-                                    prepend-icon="mdi-cart-check"
-                                    elevation="2"
-                                    class="bg-red-lighten-1"
-                                    :loading="cartStore.addingCart"
+                                    class="bg-grey-darken-3 text-none"
                                 ></v-btn>
                             </v-card-actions>
                         </v-card>
@@ -97,6 +102,8 @@ const { $deslugify } = useNuxtApp();
 definePageMeta({
     flag: 'sub_category_slug'
 });
+
+const page = ref(1);
 
 import { useCartStore } from '@/store/cart';
 
@@ -140,7 +147,11 @@ const fetchManualItems = async () => {
 
         if (subCategoryData) {
             const { data } = await useBaseFetch(`store/main-categories/sub-categories/${subCategoryData.id}/manuals`, {
-                method: 'GET'
+                method: 'GET',
+                params: {
+                    page: page.value,
+                    itemsPerPage: 9
+                }
             })
 
             manualItems.value = data;
@@ -157,10 +168,8 @@ onMounted(() => {
     fetchManualItems();
 })
 
-const page = ref(1);
-
 const pageCount = computed(() => {
-    return Math.ceil(manualItems.value.length / 8);
+    return Math.ceil(manualItems.value.length / 9);
 });
 
 const addCart = async(manual) => {
