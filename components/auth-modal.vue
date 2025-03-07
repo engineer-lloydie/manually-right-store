@@ -17,10 +17,10 @@
                 </p>
 
                 <v-sheet v-if="modalStore.fromCheckout && authForm != 'guest'" class="mt-5 text-center">
-                    <v-btn @click="switchAuthForm('guest')" color="red-lighten-1" variant="outlined">Continue as guest</v-btn>
+                    <v-btn @click="switchAuthForm('guest')" color="red-lighten-1">Continue as guest</v-btn>
                 </v-sheet>
                 <v-sheet v-if="!modalStore.fromCheckout && authForm != 'order'" class="mt-5 text-center">
-                    <v-btn @click="switchAuthForm('order')" color="red-lighten-1" variant="outlined">Non-Member Order</v-btn>
+                    <v-btn @click="switchAuthForm('order')" color="red-lighten-1">Non-Member Order</v-btn>
                 </v-sheet>
             </v-card-text>
             <template v-slot:append>
