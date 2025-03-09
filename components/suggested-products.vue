@@ -20,7 +20,7 @@
                         :mobile="true"
                     >
                         <v-slide-group-item
-                            v-for="item in manualItems"
+                            v-for="(item, index) in manualItems"
                             :key="item.id"
                         >
                             <v-card
@@ -71,7 +71,7 @@
                                         prepend-icon="mdi-cart-check"
                                         elevation="2"
                                         class="bg-red-lighten-1 text-none"
-                                        :loading="cartStore.addingCart"
+                                        :loading="cartStore.addingCart && selectedItem === item.id"
                                         @click="addCart(item)"
                                     ></v-btn>
                                 </v-card-actions>
@@ -111,7 +111,10 @@ const props = defineProps({
     }
 });
 
+const selectedItem = ref(null);
+
 const addCart = async(manual) => {
+    selectedItem.value = manual.id;
     try {
         cartStore.setNewAddedCart(false);
         await cartStore.addToCart({
