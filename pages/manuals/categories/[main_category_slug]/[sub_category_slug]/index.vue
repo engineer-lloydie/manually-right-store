@@ -69,7 +69,7 @@
                                     prepend-icon="mdi-cart-check"
                                     elevation="2"
                                     class="bg-red-lighten-1 text-none"
-                                    :loading="cartStore.addingCart"
+                                    :loading="cartStore.addingCart && selectedItem === item.id"
                                 ></v-btn>
                                 <v-btn
                                     :to="`/manuals/categories/${route.params.main_category_slug}/${route.params.sub_category_slug}/${item.url_slug}`"
@@ -172,8 +172,11 @@ const pageCount = computed(() => {
     return Math.ceil(manualItems.value.length / 9);
 });
 
+const selectedItem = ref(null);
+
 const addCart = async(manual) => {
     try {
+        selectedItem.value = manual.id;
         cartStore.setNewAddedCart(false);
         await cartStore.addToCart({
             userId: isAuthenticated.value ? user.value.id : null,
