@@ -179,7 +179,7 @@ const addCart = async(manual) => {
             userId: isAuthenticated.value ? user.value.id : null,
             guestId: isAuthenticated.value ? null : localStorage.getItem('guestId'),
             manualId: manual.id,
-            price: Math.round((num + Number.EPSILON) * 100) / 100,
+            price: Math.round((manual.price + Number.EPSILON) * 100) / 100,
             quantity: 1
         });
 
