@@ -87,7 +87,8 @@
                     <v-pagination
                         v-model="page"
                         :length="pageCount"
-                        :total-visible="5"
+                        :total-visible="1"
+                        @update:model-value="fetchManualItems"
                     ></v-pagination>
                 </div>
             </template>
@@ -134,19 +135,35 @@ const breadcrumbItems = ref([
 
 const fetching = ref(true);
 const manualItems = ref([]);
+const itemCount = ref(0);
 
-const fetchManualItems = async () => {
+const pageCount = computed(() => {
+    return Math.ceil(itemCount.value / 9);
+});
+
+const subCategoryData = ref(null);
+
+const fetchSubCategory = async () => {
     try {
-        fetching.value = true;
-        const { data: subCategoryData } = await useBaseFetch('store/main-categories/sub-category', {
+        const { data } = await useBaseFetch('store/main-categories/sub-category', {
             method: 'GET',
             params: {
                 urlSlug: route.params.sub_category_slug
             }
         })
 
-        if (subCategoryData) {
-            const { data } = await useBaseFetch(`store/main-categories/sub-categories/${subCategoryData.id}/manuals`, {
+        subCategoryData.value = data;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+const fetchManualItems = async () => {
+    try {
+        fetching.value = true;
+        
+        if (subCategoryData.value) {
+            const { data, total } = await useBaseFetch(`store/main-categories/sub-categories/${subCategoryData.value.id}/manuals`, {
                 method: 'GET',
                 params: {
                     page: page.value,
@@ -154,9 +171,9 @@ const fetchManualItems = async () => {
                 }
             })
 
+            itemCount.value = total;
             manualItems.value = data;
         }
-
     } catch (error) {
         console.error(error);
     } finally {
@@ -164,13 +181,10 @@ const fetchManualItems = async () => {
     }
 }
 
-onMounted(() => {
+onMounted(async () => {
+    await fetchSubCategory();
     fetchManualItems();
 })
-
-const pageCount = computed(() => {
-    return Math.ceil(manualItems.value.length / 9);
-});
 
 const selectedItem = ref(null);
 
