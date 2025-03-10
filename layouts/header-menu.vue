@@ -26,14 +26,13 @@
                             >
                                 <template v-slot:activator="{ props }">
                                     <v-text-field
-                                        density="compact"
-                                        label="Search templates"
+                                        label="Search manuals"
                                         variant="solo"
                                         hide-details
-                                        single-line
                                         width="300"
                                         v-bind="props"
                                         class="global-search"
+                                        append-inner-icon="mdi-magnify"
                                         v-model="searchQuery"
                                         @input="search"
                                     ></v-text-field>
