@@ -25,6 +25,7 @@
                             class="ma-4"
                             max-width="350"
                             width="100%"
+                            height="fit-content"
                         >
                             <v-img
                                 class="align-end text-white ma-4"
@@ -45,7 +46,7 @@
                                 </template>
                             </v-img>
 
-                            <v-card-title>{{ item.title }}</v-card-title>
+                            <v-card-title class="text-wrap">{{ item.title }}</v-card-title>
 
                             <v-card-subtitle class="text-h6 font-weight-bold">
                                 ${{ item.price }}
@@ -161,7 +162,7 @@ const fetchSubCategory = async () => {
 const fetchManualItems = async () => {
     try {
         fetching.value = true;
-        
+
         if (subCategoryData.value) {
             const { data, total } = await useBaseFetch(`store/main-categories/sub-categories/${subCategoryData.value.id}/manuals`, {
                 method: 'GET',

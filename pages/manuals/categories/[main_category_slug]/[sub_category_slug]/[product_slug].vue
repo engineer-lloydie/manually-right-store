@@ -71,13 +71,17 @@
                             <v-sheet height="30"></v-sheet>
     
                             <h3>${{ manualDetails.price }}</h3>
+
+                            <v-sheet height="30"></v-sheet>
+
+                            <h3 v-if="manualDetails.description" class="font-weight-regular">Description: {{ manualDetails.description }}</h3>
                         </v-col>
                         <v-col cols="12" sm="6" md="4">
                             <v-sheet>
                                 <v-select
                                     v-model="documentType"
                                     label="Please select"
-                                    :items="['Printed Manual', 'Download']"
+                                    :items="['Download']"
                                     variant="outlined"
                                 ></v-select>
                                 <v-select
