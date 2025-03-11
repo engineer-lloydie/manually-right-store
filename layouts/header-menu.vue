@@ -27,7 +27,8 @@
                                 <template v-slot:activator="{ props }">
                                     <v-text-field
                                         label="Search manuals"
-                                        variant="solo"
+                                        variant="outlined"
+                                        density="comfortable"
                                         hide-details
                                         width="300"
                                         v-bind="props"

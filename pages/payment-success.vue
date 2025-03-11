@@ -31,7 +31,8 @@
 import { usePaymentStore } from '@/store/payment';
 
 definePageMeta({
-    layout: false,
+    title: 'Payment Success',
+    layout: false
 });
 
 const paymentStore = usePaymentStore();
