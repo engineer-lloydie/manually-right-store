@@ -33,7 +33,7 @@
                                     class="align-end text-white ma-4"
                                     height="320"
                                     :src="item.thumbnails[0].url"
-                                    lazy-src="~/assets/images/pdf-icon.png"
+                                    lazy-src="~/assets/images/logo-icon.png"
                                     rounded
                                     cover
                                 >

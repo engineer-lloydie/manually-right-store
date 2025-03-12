@@ -12,7 +12,7 @@
                         <v-col cols="12" sm="6" md="4" class="d-flex align-center flex-column flex-wrap">
                             <v-img
                                 :src="manualDetails.thumbnails[selectedThumbnail]?.file_url"
-                                lazy-src="~/assets/images/pdf-icon.png"
+                                lazy-src="~/assets/images/logo-icon.png"
                                 width="300" 
                                 height="300"
                                 rounded

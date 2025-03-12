@@ -32,7 +32,7 @@
                                 height="320"
                                 alt="Manual Thumbnail"
                                 :src="item.thumbnail"
-                                lazy-src="~/assets/images/pdf-icon.png"
+                                lazy-src="~/assets/images/logo-icon.png"
                                 rounded
                                 cover
                             >
