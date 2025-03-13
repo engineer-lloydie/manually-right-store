@@ -21,7 +21,11 @@ export default defineNuxtConfig({
       '@vee-validate/nuxt',
       'nuxt-auth-sanctum',
       '@nuxtjs/device',
+      'nuxt-vue3-google-signin'
     ],
+    googleSignIn: {
+        clientId: process.env.GOOGLE_CLIENT_ID
+    },
     plugins: [
         '~/plugins/modal.mjs',
         '~/plugins/auth.mjs',
@@ -65,5 +69,5 @@ export default defineNuxtConfig({
             onLogin: false,
             onLogout: false
         }
-    },
+    }
 })

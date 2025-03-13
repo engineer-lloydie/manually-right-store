@@ -30,7 +30,7 @@
                 ></v-alert>
 
                 <v-btn
-                    class="mt-2"
+                    class="mt-2 mb-4"
                     type="submit"
                     color="red-lighten-1"
                     block
@@ -38,6 +38,14 @@
                 >
                     Sign In
                 </v-btn>
+                <v-sheet class="text-center">
+                    <GoogleSignInButton
+                        :allowed-parent-origin="['http://localhost:3010']"
+                        @success="handleLoginSuccess"
+                        @error="handleLoginError">
+                        Sign in with Google
+                    </GoogleSignInButton>
+                </v-sheet>
             </form>
         </v-sheet>
     </div>
@@ -45,6 +53,7 @@
 
 <script setup>
 import { useField, useForm } from 'vee-validate'
+import { GoogleSignInButton } from "vue3-google-signin";
 
 const { $hideModal, $login } = useNuxtApp()
 const errorMessage = ref(null);
@@ -86,6 +95,17 @@ const signin = handleSubmit(async (values) => {
         loading.value = false;
     }
 })
+
+// handle success event
+const handleLoginSuccess = (response) => {
+  const { credential } = response;
+  console.log("Access Token", credential);
+};
+
+// handle an error event
+const handleLoginError = () => {
+  console.error("Login failed");
+};
 </script>
 
 <style lang="scss" scoped>
