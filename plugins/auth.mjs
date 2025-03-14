@@ -8,8 +8,9 @@ export default defineNuxtPlugin((nuxtApp) => {
     
     return {
         provide: {
-            login: async (values) => {
+            login: async (values, strategy) => {
                 try {
+                    values.auth_method = strategy;
                     await login(values);
 
                     modalStore.isActiveModal = false;

@@ -84,7 +84,7 @@ const signin = handleSubmit(async (values) => {
     try {
         loading.value = true;
         errorMessage.value = null;
-        await $login(values);
+        await $login(values, 'email_password');
     } catch (error) {
         if (error?.response && error?.response?._data?.message) {
             errorMessage.value = error.response._data.message;
@@ -97,9 +97,23 @@ const signin = handleSubmit(async (values) => {
 })
 
 // handle success event
-const handleLoginSuccess = (response) => {
-  const { credential } = response;
-  console.log("Access Token", credential);
+const handleLoginSuccess = async (response) => {
+    const { credential } = response;
+    console.log("Access Token", credential);
+
+    try {
+        loading.value = true;
+        errorMessage.value = null;
+        await $login({ token: credential }, 'google');
+    } catch (error) {
+        if (error?.response && error?.response?._data?.message) {
+            errorMessage.value = error.response._data.message;
+        } else {
+            errorMessage.value = "Something went wrong. Please try again."
+        }
+    } finally {
+        loading.value = false;
+    }
 };
 
 // handle an error event

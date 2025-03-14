@@ -110,7 +110,7 @@ const register = handleSubmit(async (values) => {
         await $login({
             email_address: values.email_address,
             password: values.password
-        });
+        }, 'email_password');
     } catch (error) {
         errorMessage.value = error?.response?._data?.message ?? (error?.message ?? 'Unknown error occured. Please try again with a different email address.')
         console.error(error);
