@@ -40,7 +40,6 @@
                 </v-btn>
                 <v-sheet class="text-center">
                     <GoogleSignInButton
-                        :allowed-parent-origin="['http://localhost:3010']"
                         @success="handleLoginSuccess"
                         @error="handleLoginError">
                         Sign in with Google
