@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-sheet>
+        <v-sheet class="mt-5">
             <form @submit.prevent="checkOrder">
                 <v-select
                     v-model="type.value.value"

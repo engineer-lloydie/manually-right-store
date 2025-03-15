@@ -108,7 +108,7 @@
 
                             <v-divider vertical inset></v-divider>
 
-                            <v-menu>
+                            <v-menu location="start">
                                 <template v-slot:activator="{ props }">
                                     <v-btn
                                         color="grey-darken-1"

@@ -119,6 +119,10 @@ watch(guestOrderMasterIds, () => {
     getOrderLists({page: 1, itemsPerPage: itemsPerPage.value})
 })
 
+watch(isAuthenticated, () => {
+    getOrderLists({page: 1, itemsPerPage: itemsPerPage.value}, true)
+})
+
 // For table setup
 const headers = ref([
     { title: "Order No.", key: "order_number", align: "start" },
@@ -133,21 +137,30 @@ const totalItems = ref(0);
 const expanded = ref([]);
 const currentPage = ref(1);
 
-const getOrderLists = async ({ page, itemsPerPage, sortBy }) => {
+const getOrderLists = async ({ page, itemsPerPage, sortBy }, excludeOrderMasterIds = false) => {
     try {
         fetching.value = true;
         currentPage.value = page;
+
+        const params = {
+            page,
+            itemsPerPage,
+            sortBy
+        };
+
+        if (orderStore.guestOrderMasterIds && !excludeOrderMasterIds) {
+            params.orderMasterIds = JSON.stringify(orderStore.guestOrderMasterIds);
+        }
+
+        if (isAuthenticated.value) {
+            params.userId = user.value.id;
+        } else {
+            params.guestId = localStorage.getItem('guestId');
+        }
         
         const { data, total } = await useBaseFetch('/orders/lists', {
             method: 'get',
-            params: {
-                userId: isAuthenticated.value ? user.value.id : null,
-                guestId: isAuthenticated.value ? null : localStorage.getItem('guestId'),
-                orderMasterIds: orderStore.guestOrderMasterIds ? JSON.stringify(orderStore.guestOrderMasterIds) : null,
-                page,
-                itemsPerPage,
-                sortBy
-            }
+            params: params
         })
 
         ordersLists.value = data;

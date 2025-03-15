@@ -18,6 +18,6 @@ const pageTitle = computed(() => {
 });
 
 useHead({
-    title: () => `Manually Right - ${pageTitle.value}`
+    title: () => `${pageTitle.value} - ManuallyRight`
 });
 </script>

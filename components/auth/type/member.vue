@@ -1,23 +1,7 @@
 <template>
     <div>
-        <v-sheet>
-            <form @submit.prevent="register">
-                <v-text-field
-                    v-model="first_name.value.value"
-                    :error-messages="first_name.errorMessage.value"
-                    variant="outlined"
-                    clearable
-                    label="First Name"
-                ></v-text-field>
-            
-                <v-text-field
-                    v-model="last_name.value.value"
-                    :error-messages="last_name.errorMessage.value"
-                    variant="outlined"
-                    clearable
-                    label="Last Name"
-                ></v-text-field>
-                
+        <v-sheet class="mt-5">
+            <form @submit.prevent="signin">
                 <v-text-field
                     v-model="email_address.value.value"
                     :error-messages="email_address.errorMessage.value"
@@ -44,16 +28,23 @@
                     type="error"
                     closable
                 ></v-alert>
-            
+
                 <v-btn
-                    class="mt-2 text-none"
+                    class="mt-2 mb-4 text-none"
                     type="submit"
                     color="red-lighten-1"
                     block
-                    :loading="processing"
+                    :loading="loading"
                 >
-                    Register
+                    Sign In
                 </v-btn>
+                <v-sheet class="text-center">
+                    <GoogleSignInButton
+                        @success="handleLoginSuccess"
+                        @error="handleLoginError">
+                        Sign in with Google
+                    </GoogleSignInButton>
+                </v-sheet>
             </form>
         </v-sheet>
     </div>
@@ -61,20 +52,14 @@
 
 <script setup>
 import { useField, useForm } from 'vee-validate'
-const { $hideModal, $login } = useNuxtApp()
+import { GoogleSignInButton } from "vue3-google-signin";
+
+const { $login } = useNuxtApp()
+const errorMessage = ref(null);
+const loading = ref(false);
 
 const { handleSubmit } = useForm({
     validationSchema: {
-        first_name (value) {
-            if (value?.length >= 0) return true
-
-            return 'First name is required.'
-        },
-        last_name (value) {
-            if (value?.length >= 0) return true
-
-            return 'Last name is required.'
-        },
         email_address (value) {
             const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
             if (emailRegex.test(value)) return true
@@ -89,35 +74,50 @@ const { handleSubmit } = useForm({
     },
 })
 
-const first_name = useField('first_name');
-const last_name = useField('last_name');
 const email_address = useField('email_address');
 const password = useField('password');
-const processing = ref(false);
-const errorMessage = ref(null);
 
 const passwordVisible = ref(false);
 
-const register = handleSubmit(async (values) => {
+const signin = handleSubmit(async (values) => {
     try {
-        processing.value = true;
+        loading.value = true;
         errorMessage.value = null;
-        await useBaseFetch('/register', {
-            method: 'POST',
-            body: values
-        });
-
-        await $login({
-            email_address: values.email_address,
-            password: values.password
-        }, 'email_password');
+        await $login(values, 'email_password');
     } catch (error) {
-        errorMessage.value = error?.response?._data?.message ?? (error?.message ?? 'Unknown error occured. Please try again with a different email address.')
-        console.error(error);
+        if (error?.response && error?.response?._data?.message) {
+            errorMessage.value = error.response._data.message;
+        } else {
+            errorMessage.value = "Something went wrong. Please try again."
+        }
     } finally {
-        processing.value = false;
+        loading.value = false;
     }
 })
+
+// handle success event
+const handleLoginSuccess = async (response) => {
+    const { credential } = response;
+
+    try {
+        loading.value = true;
+        errorMessage.value = null;
+        await $login({ token: credential }, 'google');
+    } catch (error) {
+        if (error?.response && error?.response?._data?.message) {
+            errorMessage.value = error.response._data.message;
+        } else {
+            errorMessage.value = "Something went wrong. Please try again."
+        }
+    } finally {
+        loading.value = false;
+    }
+};
+
+// handle an error event
+const handleLoginError = () => {
+  console.error("Login failed");
+};
 </script>
 
 <style lang="scss" scoped>
