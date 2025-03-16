@@ -5,7 +5,8 @@ export const useModalStore = defineStore("modal", {
         return {
             isActiveModal: false,
             activeModalComponent: null,
-            isFromCheckout: false
+            isFromCheckout: false,
+            authForm: null
         };
     },
     getters: {
@@ -17,6 +18,9 @@ export const useModalStore = defineStore("modal", {
         },
         fromCheckout: (state) => {
             return state.isFromCheckout;
+        },
+        authFormDisplay: (state) => {
+            return state.authForm;
         }
     },
     actions: {
@@ -30,6 +34,9 @@ export const useModalStore = defineStore("modal", {
         },
         setCheckoutSource(value) {
             this.isFromCheckout = value;
+        },
+        setAuthForm(value) {
+            this.authForm = value;
         }
     }
 });

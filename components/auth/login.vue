@@ -5,10 +5,11 @@
                 v-model="tab"
                 align-tabs="center"
                 color="red-lighten-1"
+                @update:model-value="setAuthForm"
             >
                 <v-tab :value="'member'">Member</v-tab>
                 <v-tab v-if="!modalStore.fromCheckout" :value="'non_member'">Non-member</v-tab>
-                <v-tab v-else :value="'guest_order'">Guest</v-tab>
+                <v-tab v-else :value="'guest_checkout'">Guest</v-tab>
             </v-tabs>
             <v-tabs-window v-model="tab">
                 <v-tabs-window-item value="member">
@@ -19,7 +20,7 @@
                     <NonMemberOrder/>
                 </v-tabs-window-item>
 
-                <v-tabs-window-item value="guest_order">
+                <v-tabs-window-item value="guest_checkout">
                     <GuestCheckout/>
                 </v-tabs-window-item>
             </v-tabs-window>
@@ -36,6 +37,10 @@ import { useModalStore } from '@/store/modal';
 const tab = ref('member');
 
 const modalStore = useModalStore();
+
+const setAuthForm = () => {
+    modalStore.setAuthForm(tab);
+}
 </script>
 
 <style lang="scss" scoped>

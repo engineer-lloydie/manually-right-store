@@ -31,7 +31,6 @@
 <script setup>
 import AuthLogin from '~/components/auth/login.vue';
 import AuthRegister from '~/components/auth/register.vue';
-import AuthGuest from '~/components/auth/type/guest.vue';
 import { useModalStore } from '@/store/modal';
 
 const props = defineProps({
@@ -39,61 +38,60 @@ const props = defineProps({
     default: false
 });
 
-const authForm = ref('login');
 const { $hideModal } = useNuxtApp();
 const modalStore = useModalStore();
 
+modalStore.setAuthForm('member');
+
 const switchAuthForm = (value) => {
-    authForm.value = value;
     modalStore.setAuthForm(value);
 }
 
 const cardProperties = computed(() => {
-    switch (authForm.value) {
-        case 'login':
+    switch (modalStore.authFormDisplay) {
+        case 'member':
             return {
                 redirectFlag: 'register',
                 cardTitle: 'Sign In To Your Account',
                 bottomText: 'Not yet a member?',
                 bottomTextUrl: 'Register here.'
             }
-        
-        case 'register':
+    
+        case 'guest_checkout':
             return {
-                redirectFlag: 'login',
+                redirectFlag: 'register',
+                cardTitle: 'Continue As Guest',
+                bottomText: 'Not yet a member?',
+                bottomTextUrl: 'Register here.'
+            };
+
+        case 'non_member':
+            return {
+                redirectFlag: 'register',
+                cardTitle: 'View Order as Non-Member',
+                bottomText: 'Not yet a member?',
+                bottomTextUrl: 'Register here.'
+            };
+
+        default:
+            return {
+                redirectFlag: 'member',
                 cardTitle: 'New Member Registration',
                 bottomText: 'Already a member?',
                 bottomTextUrl: 'Login here.'
             }
-    
-        case 'guest':
-            return {
-                redirectFlag: 'login',
-                cardTitle: 'Continue As Guest',
-                bottomText: 'Already a member?',
-                bottomTextUrl: 'Login here.'
-            };
-
-        default: 
-            return {
-                redirectFlag: 'login',
-                cardTitle: 'View Order as Non-Member',
-                bottomText: 'Already a member?',
-                bottomTextUrl: 'Login here.'
-            };
     }
 });
 
 const currentComponent = computed(() => {
-    switch (authForm.value) {
-        case 'login':
+    switch (modalStore.authFormDisplay) {
+        case 'member':
+        case 'non_member':
+        case 'guest_checkout':
             return AuthLogin;
         
-        case 'register':
+        default:
             return AuthRegister;
-    
-        case 'guest':
-            return AuthGuest
     }
 });
 
