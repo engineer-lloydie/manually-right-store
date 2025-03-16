@@ -34,6 +34,7 @@ export default defineNuxtPlugin((nuxtApp) => {
                     await logout();
 
                     cartStore.fetchCartItems();
+                    modalStore.setCheckoutSource(false);
                 } catch (error) {
                     throw error;
                 }
