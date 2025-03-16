@@ -40,7 +40,6 @@
                 </v-btn>
                 <v-sheet class="text-center">
                     <GoogleSignInButton
-                        style="display: block"
                         logo-alignment="center"
                         @success="handleLoginSuccess"
                         @error="handleLoginError">
