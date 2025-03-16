@@ -10,10 +10,10 @@ export const useModalStore = defineStore("modal", {
     },
     getters: {
         modalActive: (state) => {
-            return state.isActiveModal
+            return state.isActiveModal;
         },
         modalComponent: (state) => {
-            return state.activeModalComponent
+            return state.activeModalComponent;
         },
         fromCheckout: (state) => {
             return state.isFromCheckout;

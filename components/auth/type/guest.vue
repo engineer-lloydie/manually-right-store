@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-sheet>
+        <v-sheet class="mt-5">
             <form @submit.prevent="continueAsGuest">
                 <v-text-field
                     v-model="first_name.value.value"

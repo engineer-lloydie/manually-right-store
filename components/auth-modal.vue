@@ -15,10 +15,6 @@
                         {{ cardProperties.bottomTextUrl }}
                     </a>
                 </p>
-
-                <v-sheet v-if="modalStore.fromCheckout && authForm != 'guest'" class="mt-5 text-center">
-                    <v-btn @click="switchAuthForm('guest')" class="text-none" color="red-lighten-1">Continue as Guest</v-btn>
-                </v-sheet>
             </v-card-text>
             <template v-slot:append>
                 <v-btn
@@ -35,7 +31,7 @@
 <script setup>
 import AuthLogin from '~/components/auth/login.vue';
 import AuthRegister from '~/components/auth/register.vue';
-import AuthGuest from '~/components/auth/guest.vue';
+import AuthGuest from '~/components/auth/type/guest.vue';
 import { useModalStore } from '@/store/modal';
 
 const props = defineProps({
@@ -44,9 +40,12 @@ const props = defineProps({
 });
 
 const authForm = ref('login');
+const { $hideModal } = useNuxtApp();
+const modalStore = useModalStore();
 
 const switchAuthForm = (value) => {
     authForm.value = value;
+    modalStore.setAuthForm(value);
 }
 
 const cardProperties = computed(() => {
@@ -84,9 +83,6 @@ const cardProperties = computed(() => {
             };
     }
 });
-
-const { $hideModal } = useNuxtApp();
-const modalStore = useModalStore();
 
 const currentComponent = computed(() => {
     switch (authForm.value) {
