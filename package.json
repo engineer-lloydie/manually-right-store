@@ -12,6 +12,8 @@
   "dependencies": {
     "@mdi/font": "^7.4.47",
     "@nuxtjs/device": "^3.2.4",
+    "@nuxtjs/robots": "^5.2.8",
+    "@nuxtjs/sitemap": "^7.2.9",
     "@paypal/paypal-js": "^8.2.0",
     "@pinia/nuxt": "^0.9.0",
     "@vee-validate/nuxt": "^4.15.0",

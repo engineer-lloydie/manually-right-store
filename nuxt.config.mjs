@@ -4,6 +4,11 @@ import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
 export default defineNuxtConfig({
     compatibilityDate: '2024-11-11',
     devtools: { enabled: false },
+    sitemap: {
+        sources: [
+            `${process.env.BASE_URL}/sitemap/pages/urls`,
+        ]
+    },
     app: {
         head: {
             charset: 'utf-8',
@@ -21,7 +26,9 @@ export default defineNuxtConfig({
       '@vee-validate/nuxt',
       'nuxt-auth-sanctum',
       '@nuxtjs/device',
-      'nuxt-vue3-google-signin'
+      'nuxt-vue3-google-signin',
+      '@nuxtjs/sitemap',
+      '@nuxtjs/robots'
     ],
     googleSignIn: {
         clientId: process.env.GOOGLE_CLIENT_ID
