@@ -4,12 +4,18 @@
         <v-card elevation="10" class="pa-4">
             <v-card-title class="mb-5">Main Categories</v-card-title>
             <v-card-text>
-                <v-sheet class="d-flex justify-center ma-16" v-if="fetching">
-                    <v-progress-circular color="red-lighten-1" indeterminate></v-progress-circular>
-                </v-sheet>
+                <template v-if="fetching">
+                    <v-row>
+                        <v-col v-for="item in 3" :key="item" cols="12" md="6" lg="4">
+                            <v-skeleton-loader
+                                type="list-item-avatar"
+                            ></v-skeleton-loader>
+                        </v-col>
+                    </v-row>
+                </template>
                 <template v-else>
                     <template v-if="!mainCategories.length">
-                        <p class="text-center ma-16">No records found.</p>
+                        <p class="text-center">No records found.</p>
                     </template>
                     <template v-else>
                         <v-row>

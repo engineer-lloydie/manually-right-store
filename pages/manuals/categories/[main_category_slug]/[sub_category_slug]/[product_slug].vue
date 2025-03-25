@@ -5,8 +5,19 @@
         <v-card>
             <v-card-text>
                 <v-container>
-                    <v-sheet class="d-flex justify-center ma-16" cols="12" v-if="fetching">
-                        <v-progress-circular color="red-lighten-1" indeterminate></v-progress-circular>
+                    <v-sheet class="d-flex justify-center" cols="12" v-if="fetching">
+                        <v-skeleton-loader
+                            width="100%"
+                            type="image"
+                        ></v-skeleton-loader>
+                        <v-skeleton-loader
+                            width="100%"
+                            type="text, subtitle"
+                        ></v-skeleton-loader>
+                        <v-skeleton-loader
+                            width="100%"
+                            type="text, button"
+                        ></v-skeleton-loader>
                     </v-sheet>
                     <v-row v-else>
                         <v-col cols="12" sm="6" md="4" class="d-flex align-center flex-column flex-wrap">

@@ -2,8 +2,25 @@
     <div class="pt-0">
         <breadcrumbs :items="breadcrumbItems" />
         <v-card>
-            <v-sheet class="d-flex justify-center ma-16" cols="12" v-if="fetching">
-                <v-progress-circular color="red-lighten-1" indeterminate></v-progress-circular>
+            <v-sheet class="d-flex justify-between ma-5" cols="12" v-if="fetching">
+                <v-row class="pa-4">
+                    <v-col
+                        cols="12"
+                        md="6"
+                        lg="4"
+                        class="d-flex justify-sm-center"
+                        v-for="item in 3"
+                        :key="item"
+                    >
+                    <v-skeleton-loader
+                        elevation="2"
+                        class="ma-4"
+                        max-width="350"
+                        width="100%"
+                        type="card, text, actions"
+                    ></v-skeleton-loader>
+                    </v-col>
+                </v-row>
             </v-sheet>
             <template v-else>
                 <v-sheet v-if="!manualItems.length">
