@@ -3,5 +3,6 @@ Disallow: /checkout
 Disallow: /contact
 Disallow: /orders
 Disallow: /payment-success
+Disallow: /manuals/categories
 
 Sitemap: https://manually-right.com/sitemap.xml
