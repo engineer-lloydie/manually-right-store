@@ -35,10 +35,6 @@ definePageMeta({
     layout: false
 });
 
-defineRouteRules({
-  robots: false,
-})
-
 const paymentStore = usePaymentStore();
 
 if (!paymentStore.orderTransactionDetails) {

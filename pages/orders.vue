@@ -107,10 +107,6 @@ definePageMeta({
     title: 'Orders'
 })
 
-defineRouteRules({
-  robots: false,
-})
-
 const ordersLists = ref([]);
 const fetching = ref(false);
 const isDownloading = ref(false);
