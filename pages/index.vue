@@ -4,10 +4,10 @@
             <banner/>
         </div>
         <div class="my-15">
-            <suggested-products title="Our Best Selling" flag="best_selling" :processing="fetchingBestSelling" :manual-items="bestSelling"/>
+            <suggested-products title="Latest Products" flag="latest_products" :processing="fetchingLatestProducts" :manual-items="latestProducts"/>
         </div>
         <div class="my-15">
-            <suggested-products title="Our Latest Products" flag="latest_products" :processing="fetchingLatestProducts" :manual-items="latestProducts"/>
+            <suggested-products title="Best Selling" flag="best_selling" :processing="fetchingBestSelling" :manual-items="bestSelling"/>
         </div>
     </div>
 </template>

@@ -116,6 +116,24 @@
 
 <script setup>
 const route = useRoute();
+const config = useRuntimeConfig();
+
+const { data: subCategoryData, status, error, refresh, clear } = await useAsyncData('subCategoryData', () =>
+    useBaseFetch(`${config.public.apiBaseUrl}/store/main-categories/sub-category`, {
+        method: 'GET',
+        params: {
+            urlSlug: route.params.sub_category_slug
+        }
+    })
+)
+
+useSeoMeta({
+  title: subCategoryData.value.name,
+  description: `Find high-quality catalogs available for ${subCategoryData.value.name}.`,
+  ogDescription: `Find high-quality catalogs available for ${subCategoryData.value.name}.`,
+  twitterCard: 'summary_large_image',
+})
+
 const { $deslugify } = useNuxtApp();
 
 definePageMeta({
@@ -159,23 +177,6 @@ const pageCount = computed(() => {
     return Math.ceil(itemCount.value / 9);
 });
 
-const subCategoryData = ref(null);
-
-const fetchSubCategory = async () => {
-    try {
-        const { data } = await useBaseFetch('store/main-categories/sub-category', {
-            method: 'GET',
-            params: {
-                urlSlug: route.params.sub_category_slug
-            }
-        })
-
-        subCategoryData.value = data;
-    } catch (error) {
-        console.error(error);
-    }
-}
-
 const fetchManualItems = async () => {
     try {
         fetching.value = true;
@@ -200,7 +201,6 @@ const fetchManualItems = async () => {
 }
 
 onMounted(async () => {
-    await fetchSubCategory();
     fetchManualItems();
 })
 

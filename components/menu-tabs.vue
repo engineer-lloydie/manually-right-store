@@ -13,9 +13,11 @@
             ></v-btn>
             <v-btn
                 exact
+                to="/contact-us" 
                 text="Contact Us" 
                 value="contact_us"
                 variant="text"
+                active-color="red-lighten-1"
             ></v-btn>
         </v-sheet>
     </div>
