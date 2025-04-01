@@ -6,6 +6,7 @@
                 <v-data-table-server
                     :expanded="expanded"
                     :items-per-page="itemsPerPage"
+                    :items-per-page-options="[5, 10, 25, 50]"
                     :headers="headers"
                     :items="ordersLists"
                     :items-length="totalItems"
