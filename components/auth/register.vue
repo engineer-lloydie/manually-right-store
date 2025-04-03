@@ -9,14 +9,6 @@
                     clearable
                     label="First Name"
                 ></v-text-field>
-            
-                <v-text-field
-                    v-model="last_name.value.value"
-                    :error-messages="last_name.errorMessage.value"
-                    variant="outlined"
-                    clearable
-                    label="Last Name"
-                ></v-text-field>
                 
                 <v-text-field
                     v-model="email_address.value.value"
@@ -70,11 +62,6 @@ const { handleSubmit } = useForm({
 
             return 'First name is required.'
         },
-        last_name (value) {
-            if (value?.length >= 0) return true
-
-            return 'Last name is required.'
-        },
         email_address (value) {
             const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
             if (emailRegex.test(value)) return true
@@ -90,7 +77,6 @@ const { handleSubmit } = useForm({
 })
 
 const first_name = useField('first_name');
-const last_name = useField('last_name');
 const email_address = useField('email_address');
 const password = useField('password');
 const processing = ref(false);

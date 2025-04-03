@@ -37,10 +37,6 @@
 
                                     <v-divider></v-divider>
 
-                                    <v-list-item title="Last Name:" disabled>
-                                        <h4>{{ checkoutInformation.lastName }}</h4>
-                                    </v-list-item>
-
                                     <v-divider></v-divider>
                                     
                                     <v-list-item title="Email Address:" disabled>
@@ -175,7 +171,6 @@ const setCheckoutInformation = () => {
     if (isAuthenticated.value) {
         checkoutInformation.value = {
             firstName: user.value.first_name,
-            lastName: user.value.last_name,
             emailAddress: user.value.email_address
         }
     } else {
@@ -183,7 +178,6 @@ const setCheckoutInformation = () => {
 
         checkoutInformation.value = {
             firstName: checkoutCredentials.first_name,
-            lastName: checkoutCredentials.last_name,
             emailAddress: checkoutCredentials.email_address
         }
     }
@@ -227,7 +221,6 @@ onMounted(async () => {
                             userId: isAuthenticated.value ? user.value.id : null,
                             guestId: isAuthenticated.value ? null : localStorage.getItem('guestId'),
                             firstName: checkoutInformation.value.firstName,
-                            lastName: checkoutInformation.value.lastName,
                             emailAddress: checkoutInformation.value.emailAddress,
                         }
                     });
