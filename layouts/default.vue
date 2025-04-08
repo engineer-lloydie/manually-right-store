@@ -1,11 +1,11 @@
 <template>
     <v-app>
         <header-menu />
-        <v-container max-width="1300">
+        <v-container max-width="1200">
             <menu-tabs/>
         </v-container>
         <v-main>
-            <v-container class="pt-0" max-width="1300">
+            <v-container class="pt-0 px-0" max-width="1200">
                 <slot />
             </v-container>
         </v-main>
