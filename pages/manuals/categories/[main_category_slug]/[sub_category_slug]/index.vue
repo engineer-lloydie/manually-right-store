@@ -59,11 +59,15 @@
             </v-card>
         </v-sheet>
         
-        <v-sheet>
+        <v-sheet class="mt-5 mb-10">
             <v-pagination
+                active-color="red-lighten-1"
+                elevation="0"
+                variant="flat"
+                density="comfortable"
                 v-model="page"
                 :length="pageCount"
-                :total-visible="1"
+                :total-visible="3"
                 @update:model-value="fetchManualItems"
             ></v-pagination>
         </v-sheet>
