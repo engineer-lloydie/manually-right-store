@@ -2,7 +2,7 @@
     <div>
         <v-sheet class="mt-5">
             <form @submit.prevent="checkOrder">
-                <v-select
+                <!-- <v-select
                     v-model="type.value.value"
                     :error-messages="type.errorMessage.value"
                     :items="searchTypes"
@@ -10,14 +10,14 @@
                     item-title="name"
                     label="Type"
                     variant="outlined"
-                ></v-select>
+                ></v-select> -->
 
                 <v-text-field
                     v-model="searchQuery.value.value"
                     :error-messages="searchQuery.errorMessage.value"
                     variant="outlined"
                     clearable
-                    label="Email Address, Order Number, or Transaction ID"
+                    label="Order/Invoice Number"
                 ></v-text-field>
 
                 <v-alert
@@ -53,11 +53,6 @@ const { handleSubmit } = useForm({
             if (value?.length >= 0) return true
 
             return 'This field is required.'
-        },
-        type (value) {
-            if (value?.length >= 0) return true
-
-            return 'This field is required.'
         }
     },
     initialValues: {
@@ -66,7 +61,6 @@ const { handleSubmit } = useForm({
 })
 
 const searchQuery = useField('searchQuery');
-const type = useField('type');
 const processing = ref(false);
 const errorMessage = ref(null);
 
@@ -86,10 +80,10 @@ const checkOrder = handleSubmit(async (values) => {
             $hideModal();
             navigateTo('/orders')
         } else {
-            errorMessage.value = 'No orders found. Please try again with different Email Address, Order Number, or Transaction ID.'
+            errorMessage.value = 'No orders found. Please try again with different Order/Invoice Number.'
         }
     } catch (error) {
-        errorMessage.value = error?.response?._data?.message ?? (error?.message ?? 'Unknown error occured. Please try again with a different email address.')
+        errorMessage.value = error?.response?._data?.message ?? (error?.message ?? 'Unknown error occured. Please try again with a different order/invoice number.')
         console.error(error);
     } finally {
         processing.value = false;
