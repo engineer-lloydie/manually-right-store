@@ -125,6 +125,72 @@
                             </v-sheet>
                         </v-col>
                     </v-row>
+
+                    <v-divider class="my-5"></v-divider>
+
+                    <h3>You may also like </h3>
+                    <v-sheet>
+                        <v-row>
+                            <v-col v-for="(item, index) in relatedProducts" :key="index" cols="12" sm="6" md="3">
+                                <v-card
+                                    class="ma-4"
+                                    max-width="350"
+                                    width="100%"
+                                    height="fit-content"
+                                >
+                                    <v-img
+                                        class="align-end text-white ma-4"
+                                        height="320"
+                                        :src="item.thumbnail"
+                                        lazy-src="~/assets/images/logo-icon.png"
+                                        rounded
+                                        cover
+                                    >
+                                        <template v-slot:placeholder>
+                                            <div class="d-flex align-center justify-center fill-height">
+                                                <v-progress-circular
+                                                color="grey-lighten-4"
+                                                indeterminate
+                                                ></v-progress-circular>
+                                            </div>
+                                        </template>
+                                    </v-img>
+            
+                                    <v-card-title class="text-wrap text-h6">{{ item.title }}</v-card-title>
+            
+                                    <v-card-subtitle class="text-h6 font-weight-bold">
+                                        ${{ item.price }}
+                                    </v-card-subtitle>
+            
+                                    <v-card-text>
+                                        <div>{{ item.description }}</div>
+                                    </v-card-text>
+            
+                                    <v-card-actions class="d-flex justify-end flex-column">
+                                        <v-btn
+                                            :to="`/manuals/categories/${item.main_url_slug}/${item.sub_url_slug}/${item.url_slug}`"
+                                            color="white" 
+                                            text="View Details"
+                                            prepend-icon="mdi-text-box-search-outline"
+                                            elevation="2"
+                                            class="bg-grey-darken-3 text-none"
+                                            block
+                                        ></v-btn>
+                                        <v-btn 
+                                            color="white" 
+                                            text="Add to Cart"
+                                            prepend-icon="mdi-cart-check"
+                                            elevation="2"
+                                            class="bg-red-lighten-1 text-none"
+                                            block
+                                            :loading="cartStore.addingCart && selectedItem === item.id"
+                                            @click="addCart(item)"
+                                        ></v-btn>
+                                    </v-card-actions>
+                                </v-card>
+                            </v-col>
+                        </v-row>
+                    </v-sheet>
                 </v-container>
             </v-card-text>
         </v-card>
@@ -253,6 +319,29 @@ const addCart = async() => {
         console.error(error);
     }
 }
+
+const relatedProducts = ref([]);
+
+const getRelatedProducts = async() => {
+    try {
+        const data = await useBaseFetch('store/related-products', {
+            params: {
+                subCategoryId: manualDetails.sub_category_id,
+                manualId: manualDetails.id
+            }
+        });
+
+        
+        relatedProducts.value = data;
+        console.log(relatedProducts.value)
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+onMounted(() => {
+    getRelatedProducts()
+});
 
 </script>
 
