@@ -5,7 +5,7 @@
         <v-card>
             <v-card-text>
                 <v-container>
-                    <v-sheet class="d-flex justify-center" cols="12" v-if="fetching">
+                    <v-sheet class="d-flex justify-center" cols="12" v-if="status == 'pending'">
                         <v-skeleton-loader
                             width="100%"
                             type="image"
@@ -132,14 +132,14 @@
 </template>
 
 <script setup>
+import { useCartStore } from '@/store/cart';
 const route = useRoute();
 const { $deslugify } = useNuxtApp();
+const config = useRuntimeConfig();
 
 definePageMeta({
     flag: 'product_slug'
 });
-
-import { useCartStore } from '@/store/cart';
 
 const cartStore = useCartStore();
 const { isAuthenticated, user } = useSanctumAuth();
@@ -174,31 +174,64 @@ const breadcrumbItems = ref([
 const documentType = ref('Download');
 const quantity = ref(1);
 
-const fetching = ref(false);
-const manualDetails = ref(null);
-
 const selectedThumbnail = ref(0);
 
-const fetchManualDetails = async () => {
-    try {
-        fetching.value = true;
+const { data: response, status } = await useAsyncData('manualDetails', () =>
+    $fetch(`${config.public.apiBaseUrl}/store/main-categories/sub-categories/manual-details`, {
+        params: {
+            urlSlug: route.params.product_slug
+        }
+    })
+)
 
-        const { data } = await useBaseFetch(`store/main-categories/sub-categories/manual-details`, {
-            method: 'GET',
-            params: {
-                urlSlug: route.params.product_slug
-            }
-        })
+const manualDetails = response.value?.data ?? {};
 
-        manualDetails.value = data;
-    } catch (error) {
-        console.error(error);
-    } finally {
-        fetching.value = false
-    }
-}
+const schemaTitle = manualDetails.meta_tags?.title || manualDetails.title;
+const schemaDescription = manualDetails.meta_tags?.description || manualDetails.description;
+const schemaImage = manualDetails.thumbnails?.[0]?.file_url;
+const schemaPrice = manualDetails.price || 0;
+const schemaCurrency = 'USD';
+const schemaProductName = manualDetails.title;
+const schemaProductDescription = manualDetails.description;
+const storeName = 'ManuallyRight';
 
-fetchManualDetails();
+useHead({
+    title: schemaTitle,
+    meta: [
+        { name: 'description', content: schemaDescription },
+        { property: 'og:title', content: schemaProductName },
+        { property: 'og:description', content: schemaProductDescription },
+        { property: 'og:image', content: schemaImage },
+        { property: 'og:type', content: 'product' }
+    ],
+    script: [
+        {
+            type: 'application/ld+json',
+            children: JSON.stringify({
+                '@context': 'https://schema.org',
+                '@type': 'Product',
+                name: schemaProductName,
+                image: [schemaImage],
+                description: schemaProductDescription,
+                brand: {
+                    '@type': 'Brand',
+                    name: storeName
+                },
+                offers: {
+                    '@type': 'Offer',
+                    priceCurrency: schemaCurrency,
+                    price: schemaPrice,
+                    itemCondition: 'https://schema.org/NewCondition',
+                    availability: 'https://schema.org/InStock',
+                    seller: {
+                        '@type': 'Organization',
+                        name: storeName
+                    }
+                }
+            })
+        }
+    ]
+});
 
 const quantityItems = [1];
 
@@ -209,8 +242,8 @@ const addCart = async() => {
         await cartStore.addToCart({
             userId: isAuthenticated.value ? user.value.id : null,
             guestId: isAuthenticated.value ? null : localStorage.getItem('guestId'),
-            manualId: manualDetails.value.id,
-            price: parseInt(manualDetails.value.price) * parseInt(quantity.value),
+            manualId: manualDetails.id,
+            price: parseFloat(manualDetails.price) * parseInt(quantity.value),
             quantity: quantity.value
         });
 
