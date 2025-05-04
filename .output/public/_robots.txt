@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /checkout
+Disallow: /contact
+Disallow: /orders
+Disallow: /payment-success
+
+Sitemap: https://manually-right.com/sitemap.xml
