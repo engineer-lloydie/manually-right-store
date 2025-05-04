@@ -1,7 +1,7 @@
 const sources = [
     {
         "sourceType": "user",
-        "fetch": "http://api.manually-right.local/api/sitemap/pages/urls"
+        "fetch": "https://api.manually-right.com/api/sitemap/pages/urls"
     },
     {
         "context": {
