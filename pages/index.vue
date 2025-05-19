@@ -17,6 +17,16 @@ definePageMeta({
     title: 'Home Page'
 })
 
+useHead({
+    title: "Affordable Aircraft Manuals in PDF Format | Manuallyright",
+    meta: [
+        { name: 'description', content: "Get affordable aircraft manuals, POHs, and PIMs in PDF format from Manuallyright. Easy access to digital aviation resources for pilots and aircraft owners." },
+        { property: 'og:title', content: "Aircraft Manuals & Aviation Supplies at Low Prices | Manuallyright" },
+        { property: 'og:description', content: "Download affordable aircraft manuals, POHs, and PIMs in convenient PDF format. Manuallyright is your trusted source for digital aviation resources." },
+        { property: 'og:type', content: 'product' }
+    ]
+});
+
 const bestSelling = ref([]);
 const latestProducts = ref([]);
 const fetchingBestSelling = ref(false);
