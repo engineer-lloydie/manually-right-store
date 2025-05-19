@@ -3,7 +3,7 @@ import { ssrRenderComponent, ssrRenderList, ssrRenderAttrs, ssrInterpolate } fro
 import { _ as _imports_1 } from './image-icon.png.mjs';
 import { _ as _export_sfc } from './_plugin-vue_export-helper.mjs';
 import { V as VWindow, m as makeVWindowProps, a as VWindowItem, b as makeVWindowItemProps } from './VWindowItem.mjs';
-import { g as genericComponent, p as propsFactory, h as useProxiedModel, i as useLocale, j as useRender, k as convertToUnit, I as IconValue, l as useCartStore, m as useSanctumAuth } from './server.mjs';
+import { g as genericComponent, p as propsFactory, h as useProxiedModel, i as useLocale, j as useRender, k as convertToUnit, I as IconValue, l as useCartStore, m as useSanctumAuth, f as useHead } from './server.mjs';
 import { V as VDefaultsProvider, a as VProgressLinear, b as VProgressCircular } from './VProgressCircular.mjs';
 import { V as VBtn, m as makeGroupItemProps, u as useGroupItem } from './VBtn.mjs';
 import { V as VImg, m as makeVImgProps, a as VCard, b as VCardTitle, c as VCardSubtitle, d as VCardText, e as VCardActions } from './VCard.mjs';
@@ -1090,6 +1090,15 @@ const _sfc_main = {
   __name: "index",
   __ssrInlineRender: true,
   setup(__props) {
+    useHead({
+      title: "Affordable Aircraft Manuals in PDF Format | Manuallyright",
+      meta: [
+        { name: "description", content: "Get affordable aircraft manuals, POHs, and PIMs in PDF format from Manuallyright. Easy access to digital aviation resources for pilots and aircraft owners." },
+        { property: "og:title", content: "Aircraft Manuals & Aviation Supplies at Low Prices | Manuallyright" },
+        { property: "og:description", content: "Download affordable aircraft manuals, POHs, and PIMs in convenient PDF format. Manuallyright is your trusted source for digital aviation resources." },
+        { property: "og:type", content: "product" }
+      ]
+    });
     const bestSelling = ref([]);
     const latestProducts = ref([]);
     const fetchingBestSelling = ref(false);

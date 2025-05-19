@@ -1,1 +1,0 @@
-import{u as t,a as c}from"./CBDzwjNG.js";function u(o){return new URL(window.location.href)}const n="sanctum.token.cookie",a={async get(o){return o.runWithContext(()=>{const e=t(n,{readonly:!0});return c(e.value)??void 0})},async set(o,e){await o.runWithContext(()=>{const r=u().protocol.startsWith("https"),s=t(n,{secure:r});s.value=e})}};export{a as cookieTokenStorage};

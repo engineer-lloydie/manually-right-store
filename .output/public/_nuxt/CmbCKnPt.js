@@ -1,1 +1,0 @@
-import{as as a}from"./CBDzwjNG.js";const s=a("payment",{state:()=>({transactionDetails:null}),getters:{orderTransactionDetails:t=>t.transactionDetails},actions:{setTransactionDetails(t){this.transactionDetails=t}}});export{s as u};

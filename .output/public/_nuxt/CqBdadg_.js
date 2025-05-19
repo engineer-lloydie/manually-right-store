@@ -1,1 +1,0 @@
-import{ae as e,o as t,l as s,aZ as n}from"./CBDzwjNG.js";function i(){const o=e(!1);return t(()=>{window.requestAnimationFrame(()=>{o.value=!0})}),{ssrBootStyles:s(()=>o.value?void 0:{transition:"none !important"}),isBooted:n(o)}}export{i as u};

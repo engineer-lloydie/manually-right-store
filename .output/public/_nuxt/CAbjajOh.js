@@ -1,1 +1,0 @@
-import{as as e}from"./CBDzwjNG.js";const t=e("order",{state:()=>({orderMasterIds:null}),getters:{guestOrderMasterIds:r=>r.orderMasterIds},actions:{setGuestOrderMasterIds(r){this.orderMasterIds=r}}});export{t as u};
