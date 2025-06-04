@@ -5,6 +5,8 @@ export default defineNuxtConfig({
     compatibilityDate: '2024-11-11',
     devtools: { enabled: false },
     sitemap: {
+        hostname: 'https://manually-right.com',
+        trailingSlash: true,
         sources: [
             `${process.env.BASE_URL}/sitemap/pages/urls`,
         ]
@@ -22,13 +24,13 @@ export default defineNuxtConfig({
         }
     },
     modules: [
-      '@pinia/nuxt',
-      '@vee-validate/nuxt',
-      'nuxt-auth-sanctum',
-      '@nuxtjs/device',
-      'nuxt-vue3-google-signin',
-      '@nuxtjs/sitemap',
-      '@nuxtjs/robots'
+        '@pinia/nuxt',
+        '@vee-validate/nuxt',
+        'nuxt-auth-sanctum',
+        '@nuxtjs/device',
+        'nuxt-vue3-google-signin',
+        '@nuxtjs/sitemap',
+        '@nuxtjs/robots'
     ],
     googleSignIn: {
         clientId: process.env.GOOGLE_CLIENT_ID
@@ -38,8 +40,8 @@ export default defineNuxtConfig({
         '~/plugins/auth.mjs',
         '~/plugins/url-slug.mjs'
     ],
-    components: { 
-        dirs: [ 
+    components: {
+        dirs: [
             '~/components',
             '~/layouts',
         ]
